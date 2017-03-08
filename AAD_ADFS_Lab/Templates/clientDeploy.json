@@ -59,7 +59,7 @@
     "apiVersion": "2015-06-15",
     "computeApiVersion": "2016-04-30-preview",
     "domainJoinOptions": 3,
-    "ConfigRDPUsers": "azure-adfs-template-master/Scripts/ConfigRDPUsers.ps1",
+    "ConfigRDPUsers": "Scripts/ConfigRDPUsers.ps1",
     "ConfigRDPUsersUri": "[concat(parameters('assetLocation'), 'Scripts\\ConfigRDPUsers.ps1')]"
   },
   "resources": [

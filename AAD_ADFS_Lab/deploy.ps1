@@ -12,7 +12,7 @@ Import-Module Azure -ErrorAction SilentlyContinue
     $userName                = "<AD ADMINISTRATOR LOGIN>"
     $secpasswd               = “<AD ADMINISTRATOR PASSWORD>”
     $ADName                  = "<AD DOMAIN NAME>"
-    $AssetLocation           = ""
+    $AssetLocation           = "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/dev/AAD_ADFS_Lab/"
 
     # ClientsToDeploy, array, possible values: "7","8","10"
     # Examples: Single Win7 VM = @("7")

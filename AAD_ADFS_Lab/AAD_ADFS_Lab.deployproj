@@ -26,6 +26,7 @@
   <!-- vertag<:>end -->
   <ItemGroup>
     <None Include="azureDeploy.json" />
+    <None Include="deploy.ps1" />
     <None Include="Deployment.targets">
       <Visible>False</Visible>
     </None>
@@ -292,7 +293,6 @@
     <None Include="Scripts\Addons.ps1" />
     <None Include="Scripts\ConfigRDPUsers.ps1" />
     <None Include="Scripts\CopyCertToWAP.ps1" />
-    <None Include="Scripts\deploy.ps1" />
     <None Include="Scripts\DeployAD.ps1" />
     <None Include="Scripts\InstallADFS.ps1" />
     <None Include="Templates\adDeploy.json" />

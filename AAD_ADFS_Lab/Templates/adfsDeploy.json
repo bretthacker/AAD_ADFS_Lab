@@ -100,7 +100,7 @@
     "apiVersion": "2015-06-15",
     "computeApiVersion": "2016-04-30-preview",
     "DeployPSModulePMUpdateUri": "[concat(parameters('assetLocation'),'Scripts/PackageManagement_x64.msi')]",
-    "DeployPSModuleUpdateTemplate": "azure-adfs-template-master/Scripts/UpdatePSModules.ps1",
+    "DeployPSModuleUpdateTemplate": "Scripts/UpdatePSModules.ps1",
     "DeployPSModuleUpdateTemplateUri": "[concat(parameters('assetLocation'),'Scripts/UpdatePSModules.ps1')]",
     "dmzSubnetID": "[concat(variables('vnetID'),'/subnets/',parameters('dmzSubnetName'))]",
     "domainJoinOptions": "3",
