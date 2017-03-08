@@ -7,13 +7,15 @@ Import-Module Azure -ErrorAction SilentlyContinue
     $VNetAddrSpace2ndOctet   = "<ENTER A UNIQUE DEPLOYMENT NUMBER, 0-9>"
 
     # Must be unique for simultaneous/co-existing deployments
+    #"master" or "dev"
+    $Branch                  = "master"
     $RGName                  = "<YOUR RESOURCE GROUP>"
     $DeployRegion            = "<SELECT AZURE REGION>"
 
     $userName                = "<AD ADMINISTRATOR LOGIN>"
     $secpasswd               = “<AD ADMINISTRATOR PASSWORD>”
     $adDomainName            = "<2-PART AD DOMAIN NAME, LIKE CONTOSO.COM>"
-    $AssetLocation           = "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/dev/AAD_ADFS_Lab/"
+    $AssetLocation           = "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/$Branch/AAD_ADFS_Lab/"
 
     # ClientsToDeploy, array, possible values: "7","8","10"
     # Examples: Single Win7 VM = @("7")
@@ -29,7 +31,7 @@ Import-Module Azure -ErrorAction SilentlyContinue
     $AdfsFarmCount           = "1";
 #END DEPLOYMENT OPTIONS
 
-#Variable Overrides (optional)
+#Dot-sourced variable override (optional, comment out if not using)
 . C:\dev\A_CustomDeploySettings\AAD_ADFS_Lab.ps1
 
 #ensure we're logged in
