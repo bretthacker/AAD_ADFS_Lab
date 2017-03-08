@@ -201,7 +201,7 @@
           "adIP": { "value": "[parameters('adIP')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "adDomainName": { "value": "[variables('adDomainName')]" },
+          "adDomainName": { "value": "[parameters('adDomainName')]" },
           "adSubnetName": { "value": "[variables('adSubnetName')]" },
           "adVMName": { "value": "[variables('adVMName')]" },
           "assetlocation": { "value": "[parameters('assetLocation')]" },
@@ -293,7 +293,7 @@
           "adfsIP": { "value": "[parameters('adfsIP')]" },
           "adSubnetName": { "value": "[variables('adSubnetName')]" },
           "adfsVMName": { "value": "[variables('adfsVMName')]" },
-          "adDomainName": { "value": "[variables('adDomainName')]" },
+          "adDomainName": { "value": "[parameters('adDomainName')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
           "assetlocation": { "value": "[parameters('assetLocation')]" },
@@ -436,7 +436,7 @@
           "fileUris": [
             "[variables('CopyCertToWAPTemplateUri')]"
           ],
-          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', variables('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'))]"
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'))]"
         }
       }
     },
@@ -456,7 +456,7 @@
           "deploymentNumber": { "value": "[parameters('deploymentNumber')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "cliSubnetName": { "value": "[variables('dmzSubnetName')]" },
-          "adDomainName": { "value": "[variables('adDomainName')]" },
+          "adDomainName": { "value": "[parameters('adDomainName')]" },
           "clientImageBaseResource": { "value": "[parameters('clientImageBaseResource')]" },
           "clientsToDeploy": { "value": "[parameters('clientsToDeploy')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
