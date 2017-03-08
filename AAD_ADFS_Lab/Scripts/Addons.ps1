@@ -4,7 +4,7 @@
     )
     $ctx = Get-AzureRMContext -ErrorAction Stop
 
-    $Headers = Get-AuthHeader -Resource $Resource -TenantId $ctx.Tenant.TenantId
+    $TenantId = $ctx.Tenant.TenantId
 	$authUrl = "https://login.windows.net/${tenantId}"
  
 	$AuthContext = [Microsoft.IdentityModel.Clients.ActiveDirectory.AuthenticationContext]$authUrl
@@ -38,14 +38,11 @@ function New-RDPConnectoid
         [string]$LoginName,
 
         [Parameter(Mandatory=$False,Position=5)]
-        [string]$Width,
+        [string]$Width="1400",
 
         [Parameter(Mandatory=$False,Position=6)]
-        [string]$Height
+        [string]$Height="1050"
     )
-
-    if (-not $Width) { $width="1400" }
-    if (-not $Height) { $Height="1050" }
 
     $res = @"
 full address:s:$ServerName

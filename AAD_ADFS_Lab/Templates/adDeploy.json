@@ -56,9 +56,9 @@
   },
   "variables": {
     "DeployADTemplate": "Scripts/DeployAD.ps1",
-    "DeployADTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/DeployAD.ps1')]",
+    "DeployADTemplateUri": "[concat(parameters('assetLocation'), 'DeployAD.ps1')]",
     "GenCertTemplate": "Scripts\\GenCert.ps1",
-    "GenCertTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/GenCert.ps1')]",
+    "GenCertTemplateUri": "[concat(parameters('assetLocation'), 'GenCert.ps1')]",
     "adSubnetID": "[concat(variables('vnetID'),'/subnets/', parameters('adSubnetName'))]",
     "imageOffer": "WindowsServer",
     "imagePublisher": "MicrosoftWindowsServer",
