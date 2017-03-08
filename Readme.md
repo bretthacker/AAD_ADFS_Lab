@@ -1,5 +1,17 @@
 # AAD ADFS Lab
 ## Creates full AD/CA/ADFS/WAP environment with Azure AD Connect installed
+## Quick Start
+Full deploy - AD, ADFS, WAP, Client machines:
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fdev%2FAAD_ADFS_Lab%2FFullDeploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>
+
+Full deploy, no Client machines:
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fdev%2FAAD_ADFS_Lab%2FNoClientDeploy.json" target="_blank">
+    <img src="http://azuredeploy.net/deploybutton.png"/>
+</a>
+
+## Details
 * Deploys the following infrastructure:
  * Virtual Network
   * 3 subnets: AD, DMZ, Client
@@ -30,11 +42,6 @@
 * A template is included for Client creation via MSDN images. You will need to update the URL to point to your images.
 
 ====
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fdev%2FAAD_ADFS_Lab%2FazureDeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png"/>
-</a>
 
-<a href="http://armviz.io/#/?load=https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/dev/AAD_ADFS_Lab/azureDeploy.json" target="_blank">
-  <img src="http://armviz.io/visualizebutton.png"/>
-</a>
+
 
