@@ -38,6 +38,10 @@
     },
     "assetLocation": {
       "type": "string"
+    },
+    "clientImageBaseResource": {
+      "type": "string",
+      "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images."}
     }
   },
   "variables": {

@@ -13,12 +13,15 @@ Import-Module Azure -ErrorAction SilentlyContinue
     $secpasswd               = “<AD ADMINISTRATOR PASSWORD>”
     $ADName                  = "<AD DOMAIN NAME>"
     $AssetLocation           = ""
-    $AccessKey               = ""
 
     # ClientsToDeploy, array, possible values: "7","8","10"
     # Examples: Single Win7 VM = @("7")
     #           Two Win7, one Win10 = "7","7","10"
     $clientsToDeploy         = @("7")
+
+    #Enter the full Azure ARM resource string to the location where you store your client images.
+    #Your images MUST be named: OSImage_Win7, OSImage_Win8, OSImage_Win10
+    $clientImageBaseResource = "/subscriptions/aed7eb10-0c55-4e2f-9789-56a40fe42f16/resourceGroups/Images/providers/Microsoft.Compute/images/"
 
     # This will deploy X number of distinct ADFS farms, each with a single WAP proxy deployed in the DMZ.
     $AdfsFarmCount           = 1;
@@ -47,10 +50,11 @@ $parms=@{
     #if multiple deployments will need to route between vNets, be sure to make this distinct between them
     "deploymentNumber"            = $VNetAddrSpace2ndOctet;
     "clientsToDeploy"             = $clientsToDeploy;
+    "clientImageBaseResource"     = "/subscriptions/aed7eb10-0c55-4e2f-9789-56a40fe42f16/resourceGroups/Images/providers/Microsoft.Compute/images/"
     "AdfsFarmCount"               = $AdfsFarmCount;
 }
 
-$TemplateFile = "$($assetLocation)Templates/azureDeploy.json"
+$TemplateFile = "$($assetLocation)azureDeploy.json"
 
 try {
     Get-AzureRmResourceGroup -Name $RGName -ErrorAction Stop

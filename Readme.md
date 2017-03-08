@@ -9,23 +9,24 @@
     * DMZ - restrictive; permits 443 traffic to Internal, RDP from internal, very limited traffic from Internal, no traffic to Internet or Internal
   * Public IP Address for each node
 
-  _Note: only one VM Size is specified (at this time)_
-
-  _Note: Network Cards are provisioned for VMs_
-
   * AD VMs - 2 VMs of size specified
 	* DSC installs AAD, CA roles, generates certificate for use by ADFS and WAP
     * Certificate is based on the public IP/DNS of the WAP deployment
     * Split-brain DNS is updated for the ADFS URL
+    * The Azure vNet is updated with a custom DNS entry pointing to the DC
   * AD FS VM
 	* DSC installs ADFS Role, pulls and installs cert from DC
     * CustomScriptExtension configures the ADFS farm
     * For unique testing scenarios, multiple distinct farms may be specified
   * WAP VM - one for each ADFS VM
 	* DSC installs WAP role
+    * CustomScriptExtension copies and installs the cert from the DC and joins the ADFS farm
 
-## Things to be aware of/Feature Backlog
+## Notes
 * The NSGs defined are for reference, but they aren't production-ready as holes are also opened for RDP to each VM directly, and public IPs are allocated for each VM as well
+* One VM size is specified for all VMs
+* Managed disks are used for all VMs, no storage accounts are created for diagnostics
+* A template is included for Client creation via MSDN images. You will need to update the URL to point to your images.
 
 ====
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/AAD_ADFS_Lab/Templates/azureDeploy.json" target="_blank">

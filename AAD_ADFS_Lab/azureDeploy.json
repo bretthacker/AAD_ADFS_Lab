@@ -77,7 +77,7 @@
     },
     "cliSubnetAddressRange": {
       "type": "string",
-      "metadata": { "description": "The address range of the desired subnet for the DMZ." },
+      "metadata": { "description": "The address range of the desired subnet for clients." },
       "defaultValue": "10.0.3.0/24"
     },
     "clientsToDeploy": {
@@ -88,7 +88,7 @@
       "type": "int",
       "defaultValue": 1,
       "allowedValues": [ 1, 2 ],
-      "metadata": { "description": "An ADFS and WAP server will be setup independently this number of times." }
+      "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times." }
     }
   },
   "variables": {
@@ -121,9 +121,9 @@
     "vnetTemplateURI": "[concat(parameters('assetLocation'),'Templates/deployVNet.json')]",
     "vnetDNSTemplateURI": "[concat(parameters('assetLocation'),'Templates/deployVNetDNS.json')]",
     "adDSCTemplate": "[concat(parameters('assetLocation'),'DSC/adDSC.zip')]",
-    "DeployADFSFarmTemplate": "azure-adfs-template-master/Scripts/InstallADFS.ps1",
+    "DeployADFSFarmTemplate": "Scripts/InstallADFS.ps1",
     "DeployADFSFarmTemplateUri": "[concat(parameters('assetLocation'), 'Scripts\\InstallADFS.ps1')]",
-    "CopyCertToWAPTemplate": "azure-adfs-template-master/Scripts/CopyCertToWAP.ps1",
+    "CopyCertToWAPTemplate": "Scripts/CopyCertToWAP.ps1",
     "CopyCertToWAPTemplateUri": "[concat(parameters('assetLocation'), 'Scripts\\CopyCertToWAP.ps1')]",
     "adDSCConfigurationFunction": "adDSCConfiguration.ps1\\DomainController",
     "subnets": [
