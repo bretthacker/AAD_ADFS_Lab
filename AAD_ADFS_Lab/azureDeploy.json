@@ -125,10 +125,10 @@
     "vnetTemplateURI": "[concat(parameters('assetLocation'),'Templates/deployVNet.json')]",
     "vnetDNSTemplateURI": "[concat(parameters('assetLocation'),'Templates/deployVNetDNS.json')]",
     "adDSCTemplate": "[concat(parameters('assetLocation'),'DSC/adDSC.zip')]",
-    "DeployADFSFarmTemplate": "Scripts/InstallADFS.ps1",
-    "DeployADFSFarmTemplateUri": "[concat(parameters('assetLocation'), 'Scripts\\InstallADFS.ps1')]",
-    "CopyCertToWAPTemplate": "Scripts/CopyCertToWAP.ps1",
-    "CopyCertToWAPTemplateUri": "[concat(parameters('assetLocation'), 'Scripts\\CopyCertToWAP.ps1')]",
+    "DeployADFSFarmTemplate": "Scripts\\InstallADFS.ps1",
+    "DeployADFSFarmTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/InstallADFS.ps1')]",
+    "CopyCertToWAPTemplate": "Scripts\\CopyCertToWAP.ps1",
+    "CopyCertToWAPTemplateUri": "[concat(parameters('assetLocation'), 'Scripts/CopyCertToWAP.ps1')]",
     "adDSCConfigurationFunction": "adDSCConfiguration.ps1\\DomainController",
     "subnets": [
       {
