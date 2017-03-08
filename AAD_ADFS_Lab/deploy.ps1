@@ -2,6 +2,7 @@
 Import-Module Azure -ErrorAction SilentlyContinue
 
 #DEPLOYMENT OPTIONS
+    $templateToDeploy        = "FullDeploy.json"
     # MUST be unique for all your simultaneous/co-existing deployments of this ADName in the same region
     $VNetAddrSpace2ndOctet   = "<ENTER A UNIQUE DEPLOYMENT NUMBER, 0-9>"
 
@@ -11,7 +12,7 @@ Import-Module Azure -ErrorAction SilentlyContinue
 
     $userName                = "<AD ADMINISTRATOR LOGIN>"
     $secpasswd               = “<AD ADMINISTRATOR PASSWORD>”
-    $ADName                  = "<AD DOMAIN NAME>"
+    $adDomainName            = "<2-PART AD DOMAIN NAME, LIKE CONTOSO.COM>"
     $AssetLocation           = "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/dev/AAD_ADFS_Lab/"
 
     # ClientsToDeploy, array, possible values: "7","8","10"
@@ -25,7 +26,7 @@ Import-Module Azure -ErrorAction SilentlyContinue
     $clientImageBaseResource = "<ARM resource path to your VM Client image base>"
 
     # This will deploy X number of distinct ADFS farms, each with a single WAP proxy deployed in the DMZ.
-    $AdfsFarmCount           = 1;
+    $AdfsFarmCount           = "1";
 #END DEPLOYMENT OPTIONS
 
 #Variable Overrides (optional)
@@ -38,7 +39,7 @@ Get-AzureRmContext -ErrorAction Stop
 $parms=@{
     "adminPassword"               = $secpasswd;
     "adminUsername"               = $userName;
-    "companyNamePrefix"           = $ADName;
+    "adDomainName"                = $ADDomainName;
     "assetLocation"               = $assetLocation;
     "virtualNetworkAddressRange"  = "10.$VNetAddrSpace2ndOctet.0.0/16";
     #The first IP deployed in the AD subnet, for the DC
@@ -55,7 +56,7 @@ $parms=@{
     "AdfsFarmCount"               = $AdfsFarmCount;
 }
 
-$TemplateFile = "$($assetLocation)azureDeploy.json"
+$TemplateFile = "$($assetLocation)$templateToDeploy"
 
 try {
     Get-AzureRmResourceGroup -Name $RGName -ErrorAction Stop

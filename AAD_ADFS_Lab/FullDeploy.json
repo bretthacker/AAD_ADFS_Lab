@@ -74,7 +74,9 @@
       "metadata": {
         "description": "ClientsToDeploy, array, possible values: 7, 8, 10. Examples: Single Win7 VM = [7]. Two Win7, one Win10 = [7, 7, 10]."
       },
-      "defaultValue": [ 10 ]
+      "defaultValue": [
+        [ 10 ] 
+      ]
     },
     "clientImageBaseResource": {
       "type": "string",
