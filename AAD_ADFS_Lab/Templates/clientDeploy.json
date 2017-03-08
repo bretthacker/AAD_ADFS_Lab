@@ -60,7 +60,7 @@
     "computeApiVersion": "2016-04-30-preview",
     "domainJoinOptions": 3,
     "ConfigRDPUsers": "Scripts/ConfigRDPUsers.ps1",
-    "ConfigRDPUsersUri": "[concat(parameters('assetLocation'), 'ConfigRDPUsers.ps1')]"
+    "ConfigRDPUsersUri": "[concat(parameters('assetLocation'), 'Scripts/ConfigRDPUsers.ps1')]"
   },
   "resources": [
     {
