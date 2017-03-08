@@ -16,8 +16,8 @@
       "metadata": { "description": "Admin username" }
     },
     "deploymentNumber": {
-      "type": "string",
-      "defaultValue": "1",
+      "type": "int",
+      "defaultValue": 1,
       "metadata": { "description": "When deploying the stack N times, define the instance - this will be appended to some resource names to avoid collisions." }
     },
     "adSubnetName": {

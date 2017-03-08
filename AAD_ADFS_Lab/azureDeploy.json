@@ -13,8 +13,8 @@
       "metadata": { "description": "Username to set for the local User. Cannot be \"Administrator\", \"root\" and possibly other such common account names. " }
     },
     "deploymentNumber": {
-      "type": "string",
-      "defaultValue": "1",
+      "type": "int",
+      "defaultValue": 1,
       "allowedValues": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
       "metadata": { "description": "When deploying the stack N times, define the instance - this will be appended to some resource names to avoid collisions." }
     },
@@ -83,17 +83,17 @@
       "metadata": {
         "description": "ClientsToDeploy, array, possible values: 7, 8, 10. Examples: Single Win7 VM = [7]. Two Win7, one Win10 = [7, 7, 10]."
       },
-      "defaultValue": [ 10 ]
+      "defaultValue": [10]
     },
     "AdfsFarmCount": {
       "type": "int",
       "defaultValue": 1,
-      "allowedValues": [ 1, 2 ],
+      "allowedValues": [1,2],
       "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times." }
     },
     "clientImageBaseResource": {
       "type": "string",
-      "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images" }
+      "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images, like /subscriptions/&lt;YourAzureSubscriptionID&gt;/resourceGroups/&lt;YourImageRG&gt;/providers/Microsoft.Compute/images/" }
     }
   },
   "variables": {
