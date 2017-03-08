@@ -292,9 +292,12 @@
               "TypeName": "System.Object"
             },
             {
-              "Name": "defaultUserPassword",
-              "Value": "PrivateSettingsRef:UserPassword",
-              "TypeName": "System.SecureString"
+              "Name": "UserCreds",
+              "Value": {
+                "UserName": "user",
+                "Password": "PrivateSettingsRef:UserPassword"
+              },
+              "TypeName": "System.Management.Automation.PSCredential"
             }
           ]
         },

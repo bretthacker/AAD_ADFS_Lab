@@ -17,7 +17,7 @@ configuration DomainController
 		[Object]$usersArray,
 
 		[Parameter(Mandatory)]
-		[SecureString]$defaultUserPassword,
+		[System.Management.Automation.PSCredential]$UserCreds,
 
         [Int]$RetryCount=20,
         [Int]$RetryIntervalSec=30
@@ -32,7 +32,7 @@ configuration DomainController
 
     $CertPw         = $AdminCreds.Password
     $ClearPw        = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPw))
-	$ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($defaultUserPassword))
+	$ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserCreds.Password))
 
     Import-DscResource -ModuleName xComputerManagement,xNetworking,xSmbShare,xAdcsDeployment,xCertificate,PSDesiredStateConfiguration
 

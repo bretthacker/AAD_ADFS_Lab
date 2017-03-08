@@ -304,4 +304,9 @@
     <None Include="Templates\NSGs.json" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties FullDeploy_1json__JSONSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>
