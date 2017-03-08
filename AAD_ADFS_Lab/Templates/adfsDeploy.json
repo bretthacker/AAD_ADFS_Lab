@@ -36,8 +36,8 @@
       }
     },
     "deploymentNumber": {
-      "type": "int",
-      "defaultValue": 1,
+      "type": "string",
+      "defaultValue": "1",
       "metadata": {
         "description": "When deploying the stack N times, define the instance - this will be appended to some resource names to avoid collisions."
       }
@@ -81,13 +81,14 @@
       "defaultValue": "AZPROX"
     },
     "AdfsFarmCount": {
-      "type": "int",
-      "defaultValue": 1,
-      "allowedValues": [ 1, 2 ],
+      "type": "string",
+      "defaultValue": "1",
+      "allowedValues": [ "1", "2" ],
       "metadata": { "description": "An ADFS and WAP server will be setup independently this number of times." }
     }
   },
   "variables": {
+    "adfsDeployCount": "[int(parameters('AdfsFarmCount'))]",
     "shortDomainName": "[split(parameters('adDomainName'),'.')[0]]",
     "adfsNetworkArr": "[split(parameters('adfsIP'),'.')]",
     "adfsStartIpNodeAddress": "[int(variables('adfsNetworkArr')[3])]",
@@ -117,7 +118,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "adfsIpCopy",
-        "count": "[parameters('AdfsFarmCount')]"
+        "count": "[variables('adfsDeployCount')]"
       },
       "apiVersion": "[variables('apiVersion')]",
       "tags": {
@@ -136,7 +137,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "wapIpCopy",
-        "count": "[parameters('AdfsFarmCount')]"
+        "count": "[variables('adfsDeployCount')]"
       },
       "apiVersion": "[variables('apiVersion')]",
       "tags": {
@@ -156,7 +157,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "adfsNicCopy",
-        "count": "[parameters('AdfsFarmCount')]"
+        "count": "[variables('adfsDeployCount')]"
       },
       "tags": { "displayName": "adfsNIC" },
       "dependsOn": [
@@ -187,7 +188,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "wapNicCopy",
-        "count": "[parameters('AdfsFarmCount')]"
+        "count": "[variables('adfsDeployCount')]"
       },
       "tags": { "displayName": "wapNIC" },
       "dependsOn": [
@@ -217,7 +218,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "adfsVmCopy",
-        "count": "[parameters('AdfsFarmCount')]"
+        "count": "[variables('adfsDeployCount')]"
       },
       "tags": { "displayName": "adfsVM" },
       "dependsOn": [
@@ -269,7 +270,7 @@
       },
       "copy": {
         "name": "joinCopy",
-        "count": "[parameters('AdfsFarmCount')]"
+        "count": "[variables('adfsDeployCount')]"
       },
       "properties": {
         "publisher": "Microsoft.Compute",
@@ -295,7 +296,7 @@
       "location": "[parameters('location')]",
       "copy": {
         "name": "wapVmCopy",
-        "count": "[parameters('AdfsFarmCount')]"
+        "count": "[variables('adfsDeployCount')]"
       },
       "tags": { "displayName": "wapVM" },
       "dependsOn": [
