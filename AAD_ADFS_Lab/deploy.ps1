@@ -8,14 +8,23 @@ Import-Module Azure -ErrorAction SilentlyContinue
 
     # Must be unique for simultaneous/co-existing deployments
     #"master" or "dev"
-    $Branch                  = "master"
     $RGName                  = "<YOUR RESOURCE GROUP>"
     $DeployRegion            = "<SELECT AZURE REGION>"
+
+    $Branch                  = "master"
+    $AssetLocation           = "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/$Branch/AAD_ADFS_Lab/"
 
     $userName                = "<AD ADMINISTRATOR LOGIN>"
     $secpasswd               = “<AD ADMINISTRATOR PASSWORD>”
     $adDomainName            = "<2-PART AD DOMAIN NAME, LIKE CONTOSO.COM>"
-    $AssetLocation           = "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/$Branch/AAD_ADFS_Lab/"
+    $usersArray              = @(
+                                @{ "FName"= "Bob"; "LName"= "Jones"; "SAM"= "bjones" },
+                                @{ "FName"= "Bill"; "LName"= "Smith"; "SAM"= "bsmith" },
+                                @{ "FName"= "Mary"; "LName"= "Phillips"; "SAM"= "mphillips" },
+                                @{ "FName"= "Sue"; "LName"= "Jackson"; "SAM"= "sjackson" }
+                               )
+    $defaultUserPassword     = "P@ssw0rd"
+
 
     # ClientsToDeploy, array, possible values: "7","8","10"
     # Examples: Single Win7 VM = @("7")
@@ -56,6 +65,8 @@ $parms=@{
     "clientsToDeploy"             = $clientsToDeploy;
     "clientImageBaseResource"     = $clientImageBaseResource;
     "AdfsFarmCount"               = $AdfsFarmCount;
+    "usersArray"                  = $usersArray;
+    "defaultUserPassword"         = "P@ssw0rd";
 }
 
 $TemplateFile = "$($assetLocation)$templateToDeploy"

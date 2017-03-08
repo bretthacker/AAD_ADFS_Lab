@@ -13,19 +13,26 @@ configuration DomainController
         [Parameter(Mandatory)]
         [String]$ADFSIPAddress,
 
+		[Parameter(Mandatory)]
+		[Object]$usersArray,
+
+		[Parameter(Mandatory)]
+		[SecureString]$defaultUserPassword,
+
         [Int]$RetryCount=20,
         [Int]$RetryIntervalSec=30
     )
     
-    $wmiDomain    = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
-    $shortDomain  = $wmiDomain.DomainName
-    $DomainName   = $wmidomain.DnsForestName
-    $ComputerName = $wmiDomain.PSComputerName
-    $CARootName   = "$($shortDomain.ToLower())-$($ComputerName.ToUpper())-CA"
-    $CAServerFQDN  = "$ComputerName.$DomainName"
+    $wmiDomain      = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
+    $shortDomain    = $wmiDomain.DomainName
+    $DomainName     = $wmidomain.DnsForestName
+    $ComputerName   = $wmiDomain.PSComputerName
+    $CARootName     = "$($shortDomain.ToLower())-$($ComputerName.ToUpper())-CA"
+    $CAServerFQDN   = "$ComputerName.$DomainName"
 
-    $CertPw = $AdminCreds.Password
-    $ClearPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPw))
+    $CertPw         = $AdminCreds.Password
+    $ClearPw        = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPw))
+	$ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($defaultUserPassword))
 
     Import-DscResource -ModuleName xComputerManagement,xNetworking,xSmbShare,xAdcsDeployment,xCertificate,PSDesiredStateConfiguration
 
@@ -189,17 +196,19 @@ configuration DomainController
                 $OU="OU=OrgUsers,DC=$DC1,DC=$DC2"
                 $folder=$using:DscWorkingFolder
 
-                $Users = Import-Csv -Delimiter "," -Path "$folder\Userlist-sn.csv"
+				$clearPw = $using:ClearDefUserPw
+				$Users = $using:usersArray
+                #$Users = Import-Csv -Delimiter "," -Path "$folder\Userlist-sn.csv"
 
                 foreach ($User in $Users)
                 {
-                    $Displayname = $User.'Firstname' + " " + $User.'Lastname'
-                    $UserFirstname = $User.'Firstname'
-                    $UserLastname = $User.'Lastname'
+                    $Displayname = $User.'FName' + " " + $User.'LName'
+                    $UserFirstname = $User.'FName'
+                    $UserLastname = $User.'LName'
                     $SAM = $User.'SAM'
-                    $UPN = $User.'Firstname' + "." + $User.'Lastname' + "@" + $Maildomain
-                    $Description = $User.'Description'
-                    $Password = $User.'Password'
+                    $UPN = $User.'FName' + "." + $User.'Name' + "@" + $Maildomain
+                    #$Password = $User.'Password'
+                    $Password = $clearPw
                     "$DisplayName, $Password, $SAM"
                     New-ADUser `
                         -Name "$Displayname" `

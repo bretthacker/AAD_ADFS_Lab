@@ -27,6 +27,20 @@
       "defaultValue": "contoso.com",
       "metadata": { "description": "Two-part internal AD name - short/NB name will be first part ('contoso')." }
     },
+    "usersArray": {
+      "type": "array",
+      "defaultValue": [
+        { "FName": "Bob", "LName": "Jones", "SAM": "bjones" },
+        { "FName": "Bill", "LName": "Smith", "SAM": "bsmith" },
+        { "FName": "Mary", "LName": "Phillips", "SAM": "mphillips" },
+        { "FName": "Sue", "LName": "Jackson", "SAM": "sjackson" }
+      ],
+      "metadata": {"description": "JSON object array of users that will be loaded into AD once the domain is established."}
+    },
+    "defaultUserPassword": {
+      "type": "securestring",
+      "metadata": { "description": "Enter the password that will be applied to each user account to be created in AD." }
+    },
     "AdfsFarmCount": {
       "type": "string",
       "defaultValue": "1",
@@ -271,12 +285,23 @@
               "Name": "ADFSIPAddress",
               "Value": "[parameters('adfsIP')]",
               "TypeName": "System.String"
+            },
+            {
+              "Name": "usersArray",
+              "Value": "[parameters('usersArray')]",
+              "TypeName": "System.Object"
+            },
+            {
+              "Name": "defaultUserPassword",
+              "Value": "PrivateSettingsRef:UserPassword",
+              "TypeName": "System.SecureString"
             }
           ]
         },
         "protectedSettings": {
           "Items": {
-            "AdminPassword": "[parameters('adminPassword')]"
+            "AdminPassword": "[parameters('adminPassword')]",
+            "UserPassword": "[parameters('defaultUserPassword')]"
           }
         }
       }
