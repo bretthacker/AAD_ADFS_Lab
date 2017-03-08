@@ -89,6 +89,10 @@
       "defaultValue": 1,
       "allowedValues": [ 1, 2 ],
       "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times." }
+    },
+    "clientImageBaseResource": {
+      "type": "string",
+      "metadata": { "description": "Enter the full Azure ARM resource string to the location where you store your client images" }
     }
   },
   "variables": {
@@ -462,6 +466,7 @@
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "cliSubnetName": { "value": "[variables('dmzSubnetName')]" },
           "adDomainName": { "value": "[variables('adDomainName')]" },
+          "clientImageBaseResource": { "value": "[parameters('clientImageBaseResource')]" },
           "clientsToDeploy": { "value": "[parameters('clientsToDeploy')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
           "assetLocation": { "value": "[parameters('assetLocation')]" }

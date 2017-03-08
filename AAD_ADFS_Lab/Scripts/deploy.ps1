@@ -21,7 +21,8 @@ Import-Module Azure -ErrorAction SilentlyContinue
 
     #Enter the full Azure ARM resource string to the location where you store your client images.
     #Your images MUST be named: OSImage_Win7, OSImage_Win8, OSImage_Win10
-    $clientImageBaseResource = "/subscriptions/aed7eb10-0c55-4e2f-9789-56a40fe42f16/resourceGroups/Images/providers/Microsoft.Compute/images/"
+    #Path will be like: "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/<RG holding your images>/providers/Microsoft.Compute/images/"
+    $clientImageBaseResource = "<ARM resource path to your VM Client image base>"
 
     # This will deploy X number of distinct ADFS farms, each with a single WAP proxy deployed in the DMZ.
     $AdfsFarmCount           = 1;
@@ -50,7 +51,7 @@ $parms=@{
     #if multiple deployments will need to route between vNets, be sure to make this distinct between them
     "deploymentNumber"            = $VNetAddrSpace2ndOctet;
     "clientsToDeploy"             = $clientsToDeploy;
-    "clientImageBaseResource"     = "/subscriptions/aed7eb10-0c55-4e2f-9789-56a40fe42f16/resourceGroups/Images/providers/Microsoft.Compute/images/"
+    "clientImageBaseResource"     = $clientImageBaseResource;
     "AdfsFarmCount"               = $AdfsFarmCount;
 }
 
