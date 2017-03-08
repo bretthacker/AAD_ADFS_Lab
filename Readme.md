@@ -30,8 +30,7 @@
 * A template is included for Client creation via MSDN images. You will need to update the URL to point to your images.
 
 ====
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fportal.azure.com%2F%23create%2FMicrosoft.Template%2Furi%2Fhttps%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fdev%2FA
-AD_ADFS_Lab%2FazureDeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fdev%2FAAD_ADFS_Lab%2FazureDeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
