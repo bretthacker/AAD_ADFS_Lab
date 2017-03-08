@@ -21,7 +21,7 @@
     },
     "adDomainName": {
       "type": "string",
-      "defaultValue": "domaintest.com"
+      "defaultValue": "contoso.com"
     },
     "adminPassword": {
       "type": "securestring",

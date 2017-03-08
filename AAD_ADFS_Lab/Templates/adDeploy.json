@@ -30,7 +30,7 @@
     },
     "adDomainName": {
       "type": "string",
-      "defaultValue": "demodomain.com"
+      "defaultValue": "contoso.com"
     },
     "assetLocation": {
       "type": "string"

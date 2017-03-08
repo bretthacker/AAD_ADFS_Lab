@@ -25,7 +25,7 @@
     "adDomainName": {
       "type": "string",
       "defaultValue": "contoso.com",
-      "metadata": { "description": "This is used to prefix the names of the resources created." }
+      "metadata": { "description": "Two-part internal AD name - short/NB name will be first part ('contoso')." }
     },
     "AdfsFarmCount": {
       "type": "string",
