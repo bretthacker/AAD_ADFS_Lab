@@ -4,6 +4,7 @@
   "parameters": {
     "assetLocation": {
       "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/dev/AAD_ADFS_Lab/",
       "metadata": { "description": "This is the location in which all the linked templates are stored." }
     },
     "adminUsername": {
@@ -14,6 +15,7 @@
     "deploymentNumber": {
       "type": "string",
       "defaultValue": "1",
+      "allowedValues": [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
       "metadata": { "description": "When deploying the stack N times, define the instance - this will be appended to some resource names to avoid collisions." }
     },
     "adminPassword": {
@@ -43,22 +45,8 @@
     "vmSize": {
       "type": "string",
       "defaultValue": "Standard_A2_v2",
-      "metadata": { "description": "Select a VM SKU" }
-    },
-    "networkInterfaceName": {
-      "type": "string",
-      "metadata": { "description": "This is the name of the Network interfaces." },
-      "defaultValue": "NIC"
-    },
-    "adIP": {
-      "type": "string",
-      "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
-      "defaultValue": "10.0.1.4"
-    },
-    "adfsIP": {
-      "type": "string",
-      "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
-      "defaultValue": "10.0.1.5"
+      "allowedValues": [ "Standard_A2_v1", "Standard_A2_v2", "Standard_A3_v2", "Standard_A4_v2", "Standard_A2_v2", "Standard_A2_v2" ],
+      "metadata": { "description": "Select a VM SKU (please ensure the SKU is available in your selected region)." }
     },
     "virtualNetworkAddressRange": {
       "type": "string",
@@ -69,6 +57,16 @@
       "type": "string",
       "metadata": { "description": "The address range of the desired subnet for Active Directory." },
       "defaultValue": "10.0.1.0/24"
+    },
+    "adIP": {
+      "type": "string",
+      "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
+      "defaultValue": "10.0.1.4"
+    },
+    "adfsIP": {
+      "type": "string",
+      "metadata": { "description": "The IP Addresses assigned to the domain controllers (a, b). Remember the first IP in a subnet is .4 e.g. 10.0.0.0/16 reserves 10.0.0.0-3. Specify one IP per server - must match numberofVMInstances or deployment will fail." },
+      "defaultValue": "10.0.1.5"
     },
     "dmzSubnetAddressRange": {
       "type": "string",
@@ -82,7 +80,10 @@
     },
     "clientsToDeploy": {
       "type": "array",
-      "defaultValue": []
+      "metadata": {
+        "description": "ClientsToDeploy, array, possible values: 7, 8, 10. Examples: Single Win7 VM = [7]. Two Win7, one Win10 = [7, 7, 10]."
+      },
+      "defaultValue": [ 10 ]
     },
     "AdfsFarmCount": {
       "type": "int",
@@ -96,6 +97,7 @@
     }
   },
   "variables": {
+    "networkInterfaceName": "NIC",
     "location": "[resourceGroup().location]",
     "adDomainName": "[tolower(concat(parameters('companyNamePrefix'), '.com'))]",
     "adfsVMName": "[toupper(concat(parameters('companyNamePrefix'), parameters('adfsVMNameSuffix')))]",
@@ -215,7 +217,7 @@
           "adVMName": { "value": "[variables('adVMName')]" },
           "assetlocation": { "value": "[parameters('assetLocation')]" },
           "location": { "value": "[variables('location')]" },
-          "networkInterfaceName": { "value": "[parameters('NetworkInterfaceName')]" },
+          "networkInterfaceName": { "value": "[variables('NetworkInterfaceName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
           "deploymentNumber": { "value": "[parameters('deploymentNumber')]" }
@@ -309,7 +311,7 @@
           "dmzSubnetName": { "value": "[variables('dmzSubnetName')]" },
           "dmzNSGName": { "value": "[variables('dmzNSGName')]" },
           "location": { "value": "[variables('location')]" },
-          "networkInterfaceName": { "value": "[parameters('NetworkInterfaceName')]" },
+          "networkInterfaceName": { "value": "[variables('NetworkInterfaceName')]" },
           "publicIPAddressDNSName": { "value": "[variables('publicIPAddressDNSName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
           "vmSize": { "value": "[parameters('vmSize')]" },
