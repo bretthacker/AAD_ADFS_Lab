@@ -9,12 +9,13 @@
     * DMZ - restrictive; permits 443 traffic to Internal, RDP from internal, very limited traffic from Internal, no traffic to Internet or Internal
   * Public IP Address for each node
 
-  * AD VMs - 2 VMs of size specified
-	* DSC installs AAD, CA roles, generates certificate for use by ADFS and WAP
+  * AD VM
+	* DSC installs AD, CA roles, generates certificate for use by ADFS and WAP
     * Certificate is based on the public IP/DNS of the WAP deployment
     * Split-brain DNS is updated for the ADFS URL
     * The Azure vNet is updated with a custom DNS entry pointing to the DC
-  * AD FS VM
+    * 5 "test" users are created in the local AD. Fork to your own repo and edit "/DSC/adDSC/Userlist-sn.csv" to change those accounts.
+  * ADFS VM
 	* DSC installs ADFS Role, pulls and installs cert from DC
     * CustomScriptExtension configures the ADFS farm
     * For unique testing scenarios, multiple distinct farms may be specified
