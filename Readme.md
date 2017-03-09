@@ -5,7 +5,7 @@
 Description | Link
 --- | ---
 Full deploy - AD, ADFS, WAP | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fmaster%2FAAD_ADFS_Lab%2FNoClientDeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
-Full deploy - AD, ADFS, WAP, with client machines | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fmaster%2FAAD_ADFS_Lab%2FFullDeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
+Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fmaster%2FAAD_ADFS_Lab%2FFullDeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
 (Links are for the master branch - copy the URL, update the branch, load it, and then also edit the "Asset Location" in Azure if you want dev.)
 
@@ -37,7 +37,7 @@ Full deploy - AD, ADFS, WAP, with client machines | <a href="https://portal.azur
 * The NSGs defined are for reference, but they aren't production-ready as holes are also opened for RDP to each VM directly, and public IPs are allocated for each VM as well
 * One VM size is specified for all VMs
 * Managed disks are used for all VMs, no storage accounts are created for diagnostics
-* A template is included for Client creation via MSDN images. You will need to update the URL to point to your images.
+* A template is included for Client creation via MSDN images. You will need to update the URL to point to your images. Images must be named "OSImage_Win&lt;version&gt;".
 * The root CA cert is usually updated automatically to domain-joined clients within hours. To accelerate this, an easy workaround is to reboot the client VM.
 * In the AD DSC template, there is a start at some code to push the ADFS FQDN out as an "Intranet Zone" site to the client machines - punted on that for now, so you will have to do this manually on client VMs in order to get ADFS SSO.
 
