@@ -48,9 +48,6 @@
     "location": "[resourceGroup().location]",
     "shortDomainName": "[split(parameters('adDomainName'),'.')[0]]",
     "ImgBase": "[parameters('clientImageBaseResource')]",
-    "WinImage7": "[concat(variables('ImgBase'), 'OSImage_Win7')]",
-    "WinImage8": "[concat(variables('ImgBase'), 'OSImage_Win8')]",
-    "WinImage10": "[concat(variables('ImgBase'), 'OSImage_Win10')]",
     "cliSubnetID": "[concat(variables('vnetID'),'/subnets/', parameters('cliSubnetName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "pubIpAddressName": "[toLower(concat('cliPubIp', resourceGroup().name, parameters('deploymentNumber')))]",
@@ -146,7 +143,7 @@
         },
         "storageProfile": {
           "imageReference": {
-            "id": "[variables(concat('WinImage', parameters('ClientsToDeploy')[copyIndex()]))]"
+            "id": "[variables(concat(variables('ImgBase'), 'OSImage_Win', parameters('ClientsToDeploy')[copyIndex()]))]"
           }
         },
         "networkProfile": {
