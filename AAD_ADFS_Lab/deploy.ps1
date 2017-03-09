@@ -18,21 +18,20 @@ Import-Module Azure -ErrorAction SilentlyContinue
     $secpasswd               = “<AD ADMINISTRATOR PASSWORD>”
     $adDomainName            = "<2-PART AD DOMAIN NAME, LIKE CONTOSO.COM>"
     $usersArray              = @(
-                                @{ "FName"= "Bob"; "LName"= "Jones"; "SAM"= "bjones" },
-                                @{ "FName"= "Bill"; "LName"= "Smith"; "SAM"= "bsmith" },
+                                @{ "FName"= "Bob";  "LName"= "Jones";    "SAM"= "bjones" },
+                                @{ "FName"= "Bill"; "LName"= "Smith";    "SAM"= "bsmith" },
                                 @{ "FName"= "Mary"; "LName"= "Phillips"; "SAM"= "mphillips" },
-                                @{ "FName"= "Sue"; "LName"= "Jackson"; "SAM"= "sjackson" }
+                                @{ "FName"= "Sue";  "LName"= "Jackson";  "SAM"= "sjackson" }
                                )
     $defaultUserPassword     = "P@ssw0rd"
 
-
-    # ClientsToDeploy, array, possible values: "7","8","10"
+    # ClientsToDeploy, array, possible values: "7","8","10_1607","10_1511"
     # Examples: Single Win7 VM = @("7")
-    #           Two Win7, one Win10 = "7","7","10"
+    #           Two Win7, one Win10 = "7","7","10_1511"
     $clientsToDeploy         = @("7")
 
     #Enter the full Azure ARM resource string to the location where you store your client images.
-    #Your images MUST be named: OSImage_Win7, OSImage_Win8, OSImage_Win10
+    #Your images MUST be named: OSImage_Win<version>
     #Path will be like: "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/<RG holding your images>/providers/Microsoft.Compute/images/"
     $clientImageBaseResource = "<ARM resource path to your VM Client image base>"
 

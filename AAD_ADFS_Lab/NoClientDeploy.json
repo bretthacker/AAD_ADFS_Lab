@@ -25,7 +25,37 @@
     "adDomainName": {
       "type": "string",
       "defaultValue": "contoso.com",
-      "metadata": { "description": "This is used to prefix the names of the resources created." }
+      "metadata": { "description": "Two-part internal AD name - short/NB name will be first part ('contoso')." }
+    },
+    "usersArray": {
+      "type": "array",
+      "defaultValue": [
+        {
+          "FName": "Bob",
+          "LName": "Jones",
+          "SAM": "bjones"
+        },
+        {
+          "FName": "Bill",
+          "LName": "Smith",
+          "SAM": "bsmith"
+        },
+        {
+          "FName": "Mary",
+          "LName": "Phillips",
+          "SAM": "mphillips"
+        },
+        {
+          "FName": "Sue",
+          "LName": "Jackson",
+          "SAM": "sjackson"
+        }
+      ],
+      "metadata": { "description": "JSON object array of users that will be loaded into AD once the domain is established." }
+    },
+    "defaultUserPassword": {
+      "type": "securestring",
+      "metadata": { "description": "Enter the password that will be applied to each user account to be created in AD." }
     },
     "AdfsFarmCount": {
       "type": "string",
@@ -190,7 +220,7 @@
           "adIP": { "value": "[parameters('adIP')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
-          "adDomainName": { "value": "[variables('adDomainName')]" },
+          "adDomainName": { "value": "[parameters('adDomainName')]" },
           "adSubnetName": { "value": "[variables('adSubnetName')]" },
           "adVMName": { "value": "[variables('adVMName')]" },
           "assetlocation": { "value": "[parameters('assetLocation')]" },
@@ -258,12 +288,23 @@
               "Name": "ADFSIPAddress",
               "Value": "[parameters('adfsIP')]",
               "TypeName": "System.String"
+            },
+            {
+              "Name": "usersArray",
+              "Value": "[parameters('usersArray')]",
+              "TypeName": "System.Object"
+            },
+            {
+              "Name": "defaultUserPassword",
+              "Value": "PrivateSettingsRef:UserPassword",
+              "TypeName": "System.SecureString"
             }
           ]
         },
         "protectedSettings": {
           "Items": {
-            "AdminPassword": "[parameters('adminPassword')]"
+            "AdminPassword": "[parameters('adminPassword')]",
+            "UserPassword": "[parameters('defaultUserPassword')]"
           }
         }
       }
@@ -282,7 +323,7 @@
           "adfsIP": { "value": "[parameters('adfsIP')]" },
           "adSubnetName": { "value": "[variables('adSubnetName')]" },
           "adfsVMName": { "value": "[variables('adfsVMName')]" },
-          "adDomainName": { "value": "[variables('adDomainName')]" },
+          "adDomainName": { "value": "[parameters('adDomainName')]" },
           "adminPassword": { "value": "[parameters('adminPassword')]" },
           "adminUsername": { "value": "[parameters('adminUsername')]" },
           "assetlocation": { "value": "[parameters('assetLocation')]" },
@@ -295,7 +336,7 @@
           "vmSize": { "value": "[parameters('vmSize')]" },
           "wapVMName": { "value": "[variables('wapVMName')]" },
           "deploymentNumber": { "value": "[parameters('deploymentNumber')]" },
-          "adfsFarmCount": { "value": "[parameters('adfsFarmCount')" }
+          "adfsFarmCount": { "value": "[parameters('AdfsFarmCount')]" }
         }
       }
     },
@@ -425,12 +466,12 @@
           "fileUris": [
             "[variables('CopyCertToWAPTemplateUri')]"
           ],
-          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', variables('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'))]"
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'))]"
         }
       }
     }
   ],
   "outputs": {
-    
+
   }
 }
