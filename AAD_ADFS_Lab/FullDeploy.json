@@ -4,7 +4,7 @@
   "parameters": {
     "assetLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/dev/AAD_ADFS_Lab/",
+      "defaultValue": "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/master/AAD_ADFS_Lab/",
       "metadata": { "description": "This is the location in which all the linked templates are stored." }
     },
     "adminUsername": {
@@ -86,7 +86,7 @@
     "clientsToDeploy": {
       "type": "array",
       "metadata": {
-        "description": "ClientsToDeploy, array, possible values: 7, 8, 10_1511, 10_1607. Examples: Single Win7 VM = [7]. Two Win7, one Win10 = [7, 7, 10_1511]."
+        "description": "ClientsToDeploy, array, possible values: 7, 8, 10_1511, 10_1607. Examples: Single Win7 VM = [\"7\"]. Two Win7, one Win10 = [\"7\", \"7\", \"10_1511\"]."
       },
       "defaultValue": [ "10_1607" ]
     },
