@@ -38,6 +38,8 @@ Full deploy, no Client machines | <a href="https://portal.azure.com/#create/Micr
 * One VM size is specified for all VMs
 * Managed disks are used for all VMs, no storage accounts are created for diagnostics
 * A template is included for Client creation via MSDN images. You will need to update the URL to point to your images.
+* The root CA cert is usually updated automatically to domain-joined clients within hours. To accelerate this, an easy workaround is to reboot the client VM.
+* In the AD DSC template, there is a start at some code to push the ADFS FQDN out as an "Intranet Zone" site to the client machines - punted on that for now, so you will have to do this manually on client VMs in order to get ADFS SSO.
 
 ## Warning
 * This template is explicitely designed for a lab environment. A few compromises were made, especially with regards to credential passing to DSC and script automation, that WILL result in clear text passwords being left behind in the DSC package and Azure Log folders on the resulting VM. 
