@@ -33,7 +33,6 @@
     </None>
     <None Include="DSC\adDSC.zip" />
     <None Include="DSC\adDSC\adDSCConfiguration.ps1" />
-    <None Include="DSC\adDSC\Userlist-sn.csv" />
     <None Include="DSC\adDSC\xActiveDirectory\2.16.0.0\Assert-HADC.ps1" />
     <None Include="DSC\adDSC\xActiveDirectory\2.16.0.0\Assert-ParentChildDomains.ps1" />
     <None Include="DSC\adDSC\xActiveDirectory\2.16.0.0\DSCResources\MSFT_xADCommon\MSFT_xADCommon.ps1" />

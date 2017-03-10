@@ -38,9 +38,6 @@ configuration DomainController
 
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${shortDomain}\$($Admincreds.UserName)", $Admincreds.Password)
     
-    #$Interface=Get-NetAdapter|Where Name -Like "Ethernet*"|Select-Object -First 1
-    #$InteraceAlias=$($Interface.Name)
- 
     Node 'localhost'
     {
         LocalConfigurationManager
@@ -198,7 +195,6 @@ configuration DomainController
 
 				$clearPw = $using:ClearDefUserPw
 				$Users = $using:usersArray
-                #$Users = Import-Csv -Delimiter "," -Path "$folder\Userlist-sn.csv"
 
                 foreach ($User in $Users)
                 {
@@ -229,7 +225,7 @@ configuration DomainController
             }
             GetScript =  { @{} }
             TestScript = { 
-                $Users = Import-Csv -Delimiter "," -Path "$using:DscWorkingFolder\Userlist-sn.csv"
+				$Users = $using:usersArray
                 $samname=$Users[0].'SAM'
                 $user = get-aduser -filter {SamAccountName -eq $samname} -ErrorAction SilentlyContinue
                 return ($user -ine $null)
