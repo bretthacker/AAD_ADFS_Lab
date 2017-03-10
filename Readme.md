@@ -38,7 +38,7 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
 * One VM size is specified for all VMs
 * Managed disks are used for all VMs - no storage accounts are created for diagnostics
 * The root CA cert is usually updated automatically to domain-joined clients within hours. To accelerate this, an easy workaround is to reboot the client VM.
-* In the AD DSC template, there is a draft of some code to push the ADFS FQDN out as an "Intranet Zone" site to the client machines - we've punted on that for now, so you will have to do this manually on client VMs in order to get ADFS SSO.
+* In the AD DSC template, there is a commented draft of some code to push the ADFS FQDN out as an "Intranet Zone" site to the client machines - we've punted on that for now, so you will have to do this manually on client VMs in order to get ADFS SSO.
 
 ## Caveats
 * There is an intermittent bug with regards to the script block that enables RDP access for non-admin (test) users within deployed client VMs (when the client deploy script is used). It doesn't affect the base lab functionality, but if you see an error regarding 'ConfigRDPUsers' during deployment, the AD admin may need to enable non-admin RDP access before a test user can login to one of the client VMs to try client SSO scenarios.
