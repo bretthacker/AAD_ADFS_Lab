@@ -21,7 +21,7 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
   * AD VM
 	* DSC installs AD, CA roles, generates certificate for use by ADFS and WAP
     * Certificate is based on the public IP/DNS of the WAP deployment
-    * Split-brain DNS on the DC is updated for the ADFS URL
+    * Split-brain DNS on the DC is configured for the ADFS URL
     * The Azure vNet is updated with a custom DNS entry pointing to the DC
     * Test users are created in the local AD by passing in an array. There is an array sample set as the default value in the deployment template.
     * Azure Active Directory Connect is installed and available to configure.
