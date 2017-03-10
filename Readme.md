@@ -24,10 +24,12 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
     * Split-brain DNS is updated for the ADFS URL
     * The Azure vNet is updated with a custom DNS entry pointing to the DC
     * 5 "test" users are created in the local AD. Fork to your own repo and edit "/DSC/adDSC/Userlist-sn.csv" to change those accounts.
+    * Azure Active Directory Connect is installed and available to configure.
   * ADFS VM
 	* DSC installs ADFS Role, pulls and installs cert from DC
     * CustomScriptExtension configures the ADFS farm
     * For unique testing scenarios, multiple distinct farms may be specified
+    * Azure Active Directory Connect is installed and available to configure.
   * WAP VM - one for each ADFS VM
 	* DSC installs WAP role
     * CustomScriptExtension copies and installs the cert from the DC and joins the ADFS farm
