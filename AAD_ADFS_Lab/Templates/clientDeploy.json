@@ -76,7 +76,7 @@
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[tolower(concat('win', parameters('ClientsToDeploy')[copyIndex()], '-', uniquestring(resourceGroup().id)))]"
+          "domainNameLabel": "[tolower(concat('win', parameters('ClientsToDeploy')[copyIndex()], '-', copyIndex(1), '-', uniquestring(resourceGroup().id)))]"
         }
       }
     },
@@ -134,7 +134,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computername": "[concat('win', split(parameters('ClientsToDeploy')[copyIndex()],'-')[0], '-', parameters('deploymentNumber'))]",
+          "computername": "[concat('win', parameters('ClientsToDeploy')[copyIndex()], '-', copyIndex(1))]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
