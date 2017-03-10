@@ -202,7 +202,7 @@ configuration DomainController
                     $UserFirstname = $User.'FName'
                     $UserLastname = $User.'LName'
                     $SAM = $User.'SAM'
-                    $UPN = $User.'FName' + "." + $User.'Name' + "@" + $Maildomain
+                    $UPN = $User.'FName' + "." + $User.'LName' + "@" + $Maildomain
                     #$Password = $User.'Password'
                     $Password = $clearPw
                     "$DisplayName, $Password, $SAM"

@@ -29,6 +29,8 @@ Import-Module Azure -ErrorAction SilentlyContinue
     # Examples: Single Win7 VM = @("7")
     #           Two Win7, one Win10 = "7","7","10-1511"
     $clientsToDeploy         = @("7")
+    $RDPWidth                = 1920
+    $RDPHeight               = 1080
 
     #Enter the full Azure ARM resource string to the location where you store your client images.
     #Your images MUST be named: OSImage_Win<version>
@@ -95,12 +97,12 @@ if ($deployment) {
     if (!(Test-Path -Path $RDPFolder)) {
         md $RDPFolder
     }
-
+    $ADName = $ADDomainName.Split('.')[0]
     $vms = Find-AzureRmResource -ResourceGroupNameContains $RGName | where {($_.ResourceType -like "Microsoft.Compute/virtualMachines")}
     if ($vms) {
         foreach ($vm in $vms) {
             $fqdn=Get-FQDNForVM -ResourceGroupName $RGName -VMName $vm.Name
-            New-RDPConnectoid -ServerName $fqdn -LoginName "$($ADName)\$($userName)" -RDPName $vm.Name -OutputDirectory $RDPFolder -Width 1920 -Height 1080
+            New-RDPConnectoid -ServerName $fqdn -LoginName "$($ADName)\$($userName)" -RDPName $vm.Name -OutputDirectory $RDPFolder -Width $RDPWidth -Height $RDPHeight
             if ($vm.Name.IndexOf("PX") -gt -1) {
                 $WshShell = New-Object -comObject WScript.Shell
                 $Shortcut = $WshShell.CreateShortcut("$($RDPFolder)ADFSTest.lnk")
