@@ -26,7 +26,7 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
     * Test users are created in the local AD by passing in an array. There is an array sample set as the default value in the deployment template.
     * Azure Active Directory Connect is installed and available to configure.
   * ADFS VM
-	* DSC installs ADFS Role, pulls and installs cert from DC
+	* DSC installs ADFS Role, pulls and installs cert from CA on the DC
     * CustomScriptExtension configures the ADFS farm
     * For unique testing scenarios, multiple distinct farms may be specified
     * Azure Active Directory Connect is installed and available to configure.
