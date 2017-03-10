@@ -25,9 +25,9 @@ Import-Module Azure -ErrorAction SilentlyContinue
                                )
     $defaultUserPassword     = "P@ssw0rd"
 
-    # ClientsToDeploy, array, possible values: "7","8","10_1607","10_1511"
+    # ClientsToDeploy, array, possible values: "7","8","10-1607","10-1511"
     # Examples: Single Win7 VM = @("7")
-    #           Two Win7, one Win10 = "7","7","10_1511"
+    #           Two Win7, one Win10 = "7","7","10-1511"
     $clientsToDeploy         = @("7")
 
     #Enter the full Azure ARM resource string to the location where you store your client images.

@@ -57,6 +57,7 @@ if ($ctx.SubscriptionName -ne $AzureSub) { Set-AzureRmContext -SubscriptionName 
 
 #DEPLOYMENT OPTIONS
     $Branch                  = "master"
+
     $VNetAddrSpace2ndOctet   = "2"
     $RGName                  = "TestRG$VNetAddrSpace2ndOctet"
     $DeployRegion            = "West US 2"
@@ -67,6 +68,15 @@ if ($ctx.SubscriptionName -ne $AzureSub) { Set-AzureRmContext -SubscriptionName 
     $clientImageBaseResource = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/ImageRG/providers/Microsoft.Compute/images/"
     $AdfsFarmCount           = "1";
     $AssetLocation           = "https://raw.githubusercontent.com/bretthacker/AAD_ADFS_Lab/$Branch/AAD_ADFS_Lab/"
+
+    $usersArray              = @(
+                                @{ "FName"= "Bob"; "LName"= "Jones"; "SAM"= "bjones" },
+                                @{ "FName"= "Bill"; "LName"= "Smith"; "SAM"= "bsmith" },
+                                @{ "FName"= "Mary"; "LName"= "Phillips"; "SAM"= "mphillips" },
+                                @{ "FName"= "Sue"; "LName"= "Jackson"; "SAM"= "sjackson" }
+                            );
+    $defaultUserPassword     = "P@ssw0rd"
+
 #END DEPLOYMENT OPTIONS
 
 ```
