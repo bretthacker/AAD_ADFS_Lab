@@ -134,7 +134,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computername": "[concat('cli-Win', parameters('ClientsToDeploy')[copyIndex()], '-', parameters('deploymentNumber'))]",
+          "computername": "[concat('cli-Win', split(parameters('ClientsToDeploy')[copyIndex()],'-')[0], '-', parameters('deploymentNumber'))]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
           "windowsConfiguration": {
