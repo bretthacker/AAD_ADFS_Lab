@@ -18,7 +18,6 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
     * Client - permissive; restricts traffic to DMZ
     * DMZ - restrictive; permits 443 traffic to Internal, RDP from internal, very limited traffic from Internal, no traffic to Internet or Internal
   * Public IP Address for each node
-
   * AD VM
 	* DSC installs AD, CA roles, generates certificate for use by ADFS and WAP
     * Certificate is based on the public IP/DNS of the WAP deployment
@@ -34,20 +33,23 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
     * CustomScriptExtension copies and installs the cert from the DC and joins the ADFS farm
 
 ## Notes
+* _A template is included for Client creation via MSDN images. You will need to update the URL to point to your images. Images must be named "OSImage_Win&lt;version&gt;"._
 * The NSGs defined are for reference, but they aren't production-ready as holes are also opened for RDP to each VM directly, and public IPs are allocated for each VM as well
 * One VM size is specified for all VMs
-* Managed disks are used for all VMs, no storage accounts are created for diagnostics
-* A template is included for Client creation via MSDN images. You will need to update the URL to point to your images. Images must be named "OSImage_Win&lt;version&gt;".
+* Managed disks are used for all VMs - no storage accounts are created for diagnostics
 * The root CA cert is usually updated automatically to domain-joined clients within hours. To accelerate this, an easy workaround is to reboot the client VM.
-* In the AD DSC template, there is a start at some code to push the ADFS FQDN out as an "Intranet Zone" site to the client machines - punted on that for now, so you will have to do this manually on client VMs in order to get ADFS SSO.
+* In the AD DSC template, there is a draft of some code to push the ADFS FQDN out as an "Intranet Zone" site to the client machines - we've punted on that for now, so you will have to do this manually on client VMs in order to get ADFS SSO.
 
 ## Warning
-* This template is explicitely designed for a lab environment. A few compromises were made, especially with regards to credential passing to DSC and script automation, that WILL result in clear text passwords being left behind in the DSC package and Azure Log folders on the resulting VM. 
+* This template is explicitely designed for a lab environment. A few compromises were made, especially with regards to credential passing to DSC and script automation, that WILL result in clear text passwords being left behind in the DSC package and Azure Log folders on the resulting VMs. 
 
 ## Bonus
-The "deploy.ps1" file above can be downloaded and run locally against this repo, and offers a few additional features. After the deployment completes, it will create a folder on your desktop with the name of the resource group, and create an RDP connectoid for each server and client that was deployed. It will then create an HTTP shortcut to the ADFS WAP endpoint for testing and confirming the deployment.
+The "deploy.ps1" file above can be downloaded and run locally against this repo, and offers a few additional features:
+* After the deployment completes, it will create a folder on your desktop with the name of the resource group
+* It will then create an RDP connectoid in that folder for each server and client that was deployed.
+* It will then create an HTTP shortcut to the ADFS WAP endpoint for testing and confirming the deployment.
 
-It has a line that allows you to separate your specific variables from the master file via dot-sourcing. Here's what my dot-sourced variable overrides file looks like:
+The deploy script master has a line that allows you to separate your specific variables from the master via dot-sourcing. Here's a sample dot-sourced variable overrides file:
 ```powershell
 #Login if necessary
 $AzureSub = "My Azure Subscription"
