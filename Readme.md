@@ -32,7 +32,7 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
     * Azure Active Directory Connect is installed and available to configure.
   * WAP VM - one for each ADFS VM
 	* DSC installs WAP role
-    * CustomScriptExtension copies and installs the cert from the DC and joins the ADFS farm
+    * CustomScriptExtension copies and installs the cert from the DC and connects to the ADFS farm
 
 ## Notes
 * _A template is included for Client creation via MSDN images. You will need to update the URL to point to your images. Images must be named "OSImage_Win&lt;version&gt;"._
