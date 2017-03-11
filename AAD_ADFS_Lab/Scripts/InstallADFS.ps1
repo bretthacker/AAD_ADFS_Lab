@@ -63,5 +63,16 @@ if (-not $elevated) {
     } else {
         Write-Host "Farm already configured" -Verbose
     }
-}
 
+	# Install AAD Tools
+	md c:\temp -ErrorAction Ignore
+	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+	Save-Module -Name MSOnline -Path c:\temp
+	Install-Module -Name MSOnline -Force
+
+	Save-Module -Name AzureAD -Path c:\temp
+	Install-Module -Name AzureAD -Force
+
+	Save-Module -Name AzureADPreview -Path c:\temp
+	Install-Module -Name AzureADPreview -AllowClobber -Force
+}

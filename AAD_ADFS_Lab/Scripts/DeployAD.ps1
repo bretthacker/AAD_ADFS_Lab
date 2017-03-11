@@ -70,3 +70,21 @@ if (!(Test-Path -Path "$($completeFile)2")) {
     #record that we got this far
     New-Item -ItemType file "$($completeFile)2"
 }
+
+if (!(Test-Path -Path "$($completeFile)3")) {
+    # Install AAD Tools
+	md c:\temp -ErrorAction Ignore
+	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+	Save-Module -Name MSOnline -Path c:\temp
+	Install-Module -Name MSOnline -Force
+
+	Save-Module -Name AzureAD -Path c:\temp
+	Install-Module -Name AzureAD -Force
+
+	Save-Module -Name AzureADPreview -Path c:\temp
+	Install-Module -Name AzureADPreview -AllowClobber -Force
+
+    #record that we got this far
+    New-Item -ItemType file "$($completeFile)3"
+
+}
