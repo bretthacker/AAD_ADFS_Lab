@@ -367,7 +367,6 @@
               "direction": "Inbound"
             }
           },
-
           {
             "name": "allow_AD_ephemeral",
             "properties": {
@@ -436,23 +435,24 @@
               "access": "Allow",
               "priority": 199,
               "direction": "Inbound"
-            },
-            {
-              "name": "allow_WinRM_vNet",
-              "properties": {
-                "description": "Allow WinRM sessions within the vNet",
-                "protocol": "Tcp",
-                "sourcePortRange": "*",
-                "destinationPortRange": "5985-5986",
-                "sourceAddressPrefix": "VirtualNetwork",
-                "destinationAddressPrefix": "[variables('adSubnetRange')]",
-                "access": "Allow",
-                "priority": 198,
-                "direction": "Inbound"
-              }
             }
-            ]
+          },
+          {
+            "name": "allow_WinRM_vNet",
+            "properties": {
+              "description": "Allow WinRM sessions within the vNet",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "5985-5986",
+              "sourceAddressPrefix": "VirtualNetwork",
+              "destinationAddressPrefix": "[variables('adSubnetRange')]",
+              "access": "Allow",
+              "priority": 198,
+              "direction": "Inbound"
+            }
           }
+        ]
+      }
     },
     {
       "apiVersion": "2015-06-15",
