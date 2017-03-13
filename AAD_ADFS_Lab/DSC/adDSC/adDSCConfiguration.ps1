@@ -33,6 +33,12 @@ configuration DomainController
     $CARootName     = "$($shortDomain.ToLower())-$($ComputerName.ToUpper())-CA"
     $CAServerFQDN   = "$ComputerName.$DomainName"
 
+	# NOTE: see adfsDeploy.json variable block to see how the internal IP is constructed 
+	#       (punting and reproducing logic here)
+	$adfsNetworkArr         = $ADFSIPAddress.Split('.')
+	$adfsStartIpNodeAddress = [int]$adfsNetworkArr[3]
+	$adfsNetworkString      = "$($adfsNetworkArr[0]).$($adfsNetworkArr[1]).$($adfsNetworkArr[2])."
+
     $CertPw         = $AdminCreds.Password
     $ClearPw        = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($CertPw))
 	$ClearDefUserPw = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($UserCreds.Password))
@@ -151,7 +157,7 @@ configuration DomainController
 			Script "SaveCert$instance"
 			{
 				SetScript  = {
-								 $s=$using:subject;
+								 $s = $using:subject;
 								 $s = $s -f $using:instance
 								 write-verbose "subject = $s";
 								 $cert = Get-ChildItem Cert:\LocalMachine\My | where {$_.Subject -eq "CN=$s"}
@@ -159,18 +165,38 @@ configuration DomainController
 							 }
 
 				GetScript  = { @{ 
-									$s=$using:subject;
+									$s = $using:subject;
 									$s = $s -f $using:instance
 									Result = (Get-Content "C:\src\$s.pfx") } 
 								}
 				TestScript = {
-								$s=$using:subject;
+								$s = $using:subject;
 								$s = $s -f $using:instance
 								return Test-Path "C:\src\$s.pfx" 
 							 }
 				DependsOn  = "[xCertReq]SSLCert$instance"
 			}
 
+			Script "UpdateDNS$instance"
+			{
+				SetScript  = {
+								$NodeAddr  = [int]$($using:instance) + [int]$($using:adfsStartIpNodeAddress)
+								$IPAddress = "$($using:adfsNetworkString)$NodeAddr"
+
+								$s        = $using:subject;
+								$s        = $s -f $using:instance
+								$ZoneName = $s
+								$Zone     = Add-DnsServerPrimaryZone -Name $ZoneName -ReplicationScope Forest -PassThru
+								$rec      = Add-DnsServerResourceRecordA -ZoneName $ZoneName -Name "@" -AllowUpdateAny -IPv4Address $IPAddress
+							 }
+
+				GetScript =  { @{} }
+				TestScript = { 
+					$ZoneName=$using:Subject
+					$Zone = Get-DnsServerZone -Name $ZoneName -ErrorAction SilentlyContinue
+					return ($Zone -ine $null)
+				}
+			}
 		}
 
         Script InstallAADConnect
@@ -262,23 +288,6 @@ configuration DomainController
                 return ($user -ine $null)
             }
             DependsOn  = '[Script]CreateOU'
-        }
-
-        Script UpdateDNS
-        {
-            SetScript  = {
-                            $IPAddress=$using:ADFSIPAddress
-                            $ZoneName=$using:Subject
-                            $Zone = Add-DnsServerPrimaryZone -Name $ZoneName -ReplicationScope Forest -PassThru
-                            $rec = Add-DnsServerResourceRecordA -ZoneName $ZoneName -Name "@" -AllowUpdateAny -IPv4Address $IPAddress
-                         }
-
-            GetScript =  { @{} }
-            TestScript = { 
-                $ZoneName=$using:Subject
-                $Zone = Get-DnsServerZone -Name $ZoneName -ErrorAction SilentlyContinue
-                return ($Zone -ine $null)
-            }
         }
 
         Script SetKDCRoot
