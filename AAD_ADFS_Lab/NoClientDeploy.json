@@ -430,7 +430,7 @@
         "count": "[variables('adfsDeployCount')]"
       },
       "dependsOn": [
-        "adfsDscCopy"
+        "adfsVMs"
       ],
       "tags": {
         "displayName": "wapDSCPrep"
