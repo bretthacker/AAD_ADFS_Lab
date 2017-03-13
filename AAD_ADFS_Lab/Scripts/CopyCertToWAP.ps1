@@ -25,9 +25,8 @@ $Subject=$null
 [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($adminuser)", $SecPW)
 
 $completeFile="c:\temp\prereqsComplete"
-if (!(Test-Path -Path "c:\temp")) {
-    md "c:\temp"
-}
+md "c:\temp" -ErrorAction Ignore
+md "c:\AADLab" -ErrorAction Ignore
 
 if (!(Test-Path -Path "$($completeFile)0")) {
     $PathToCert="\\$DCFQDN\src"
@@ -66,9 +65,6 @@ if (!(Test-Path -Path "$($completeFile)1")) {
 }
 
 if (!(Test-Path -Path "$($completeFile)2")) {
-	if (!(Test-Path -Path "c:\AADLab")) {
-		md "c:\AADLab" -ErrorAction Ignore
-	}
 	$str = @"
 #https://blogs.technet.microsoft.com/rmilne/2015/04/20/adfs-2012-r2-web-application-proxy-re-establish-proxy-trust/
 `$DomainCreds = Get-Credential
@@ -94,17 +90,16 @@ Start-Service -Name appproxysvc
 
 if (!(Test-Path -Path "$($completeFile)3")) {
     # Shortcuts
-	if (!(Test-Path -Path "c:\AADLab")) {
-		md "c:\AADLab" -ErrorAction Ignore
-	}
 
 	$WshShell = New-Object -comObject WScript.Shell
 	$dt="C:\Users\Public\Desktop\"
 	$ieicon="%ProgramFiles%\Internet Explorer\iexplore.exe, 0"
+	$Subject = $WapFqdn -f $instance
 
 	$links = @(
 		@{site="http://connect.microsoft.com/site1164";name="Azure AD Connect Home";icon=$ieicon},
 		@{site="https://docs.microsoft.com/en-us/azure/active-directory/connect/active-directory-aadconnect";name="Azure AD Docs";icon=$ieicon},
+		@{site="https://$Subject/adfs/ls/idpinitiatedsignon.aspx";name="ADFS IDP Signon";icon=$ieicon},
 		@{site="%windir%\system32\WindowsPowerShell\v1.0\PowerShell_ISE.exe";name="PowerShell ISE";icon="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell_ise.exe, 0"},
 		@{site="%windir%\system32\services.msc";name="Services";icon="%windir%\system32\filemgmt.dll, 0"},
 		@{site="%windir%\system32\RAMgmtUI.exe";name="Remote Access Management";icon="%SystemRoot%\System32\damgmtres.dll, 0"},

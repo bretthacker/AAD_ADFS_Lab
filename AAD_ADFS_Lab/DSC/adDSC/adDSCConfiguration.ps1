@@ -180,7 +180,7 @@ configuration DomainController
 			Script "UpdateDNS$instance"
 			{
 				SetScript  = {
-								$NodeAddr  = [int]$($using:instance) + [int]$($using:adfsStartIpNodeAddress)
+								$NodeAddr  = ([int]$($using:instance) + [int]$($using:adfsStartIpNodeAddress)) - 1
 								$IPAddress = "$($using:adfsNetworkString)$NodeAddr"
 
 								$s        = $using:subject;

@@ -48,10 +48,11 @@ if (-not $elevated) {
 
     #get thumbprint of certificate
     $cert = Get-ChildItem Cert:\LocalMachine\My | where {$_.Subject -eq "CN=$Subject"}
-
-    $props = Get-ADfsProperties -ErrorAction SilentlyContinue
- 
-    if (-not $props) {
+	try {
+	    Get-ADfsProperties -ErrorAction Stop
+        Write-Host "Farm already configured" -Verbose
+	}
+	catch {
         Install-AdfsFarm `
             -Credential $DomainCreds `
             -CertificateThumbprint $cert.thumbprint `
@@ -61,10 +62,8 @@ if (-not $elevated) {
             -OverwriteConfiguration
 
         Write-Host "Farm configured" -Verbose
-    } else {
-        Write-Host "Farm already configured" -Verbose
-    }
-
+	}
+ 
 	# Install AAD Tools
 	md c:\temp -ErrorAction Ignore
 	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
@@ -89,6 +88,7 @@ if (-not $elevated) {
 		@{site="http://connect.microsoft.com/site1164";name="Azure AD Connect Home";icon=$ieicon},
 		@{site="https://docs.microsoft.com/en-us/azure/active-directory/connect/active-directory-aadconnect";name="Azure AD Docs";icon=$ieicon},
 		@{site="http://connect.microsoft.com/site1164/Downloads/DownloadDetails.aspx?DownloadID=59185";name="Download Azure AD Powershell";icon=$ieicon},
+		@{site="https://$Subject/adfs/ls/idpinitiatedsignon.aspx";name="ADFS IDP Signon";icon=$ieicon},
 		@{site="%windir%\system32\WindowsPowerShell\v1.0\PowerShell_ISE.exe";name="PowerShell ISE";icon="%SystemRoot%\system32\WindowsPowerShell\v1.0\powershell_ise.exe, 0"},
 		@{site="%windir%\ADFS\Microsoft.IdentityServer.msc";name="AD FS Management";icon="%windir%\ADFS\Microsoft.IdentityServer.NativeResources.dll, 0"},
 		@{site="%windir%\system32\services.msc";name="Services";icon="%windir%\system32\filemgmt.dll, 0"},
