@@ -41,7 +41,7 @@ Configuration Main
                 $DCName = $wmiDomain.DomainControllerName
                 $PathToCert="$DCName\src\*.pfx"
                 $CertFile = Get-ChildItem -Path $PathToCert
-				for ($file=0; $file =le $CertFile.Count; $file++)
+				for ($file=0; $file -lt $CertFile.Count; $file++)
 				{
 					$Subject   = $CertFile[$file].BaseName
 					$CertPath  = $CertFile[$file].FullName

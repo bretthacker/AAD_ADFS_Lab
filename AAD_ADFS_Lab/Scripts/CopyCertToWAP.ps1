@@ -46,7 +46,7 @@ if (!(Test-Path -Path "$($completeFile)1")) {
 
 	#install the certificate that will be used for ADFS Service
     $CertFile  = Get-ChildItem -Path "c:\temp\*.pfx"
-	for ($file=0;$file =le $CertFile.Count;$file++)
+	for ($file=0;$file -lt $CertFile.Count;$file++)
 	{
 		$Subject   = $CertFile[$file].BaseName
 		$CertPath  = $CertFile[$file].FullName

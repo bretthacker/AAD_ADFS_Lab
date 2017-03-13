@@ -12,7 +12,6 @@
 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
 $DCName = $wmiDomain.DomainControllerName
 $ComputerName = $wmiDomain.PSComputerName
-$instance = $ComputerName.Substring($computerName.Length-1, 1)
 $Subject = $WapFqdn -f $instance
 
 $DomainName=$wmiDomain.DomainName
@@ -45,11 +44,7 @@ if (-not $elevated) {
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainNetbiosName}\$($Acct)", $SecPW)
 
     $Index = $ComputerName.Substring($ComputerName.Length-1,1)
-    $ADFSSvcName = "AdfsSvc$($Index)`$"
-
-    $PathToCert="$DCName\src\*.pfx"
-    $File = Get-ChildItem -Path $PathToCert
-    $Subject=$File.BaseName
+	$Subject = $WapFqdn -f $Index
 
     #get thumbprint of certificate
     $cert = Get-ChildItem Cert:\LocalMachine\My | where {$_.Subject -eq "CN=$Subject"}
