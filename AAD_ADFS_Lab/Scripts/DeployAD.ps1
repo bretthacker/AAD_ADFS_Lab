@@ -14,25 +14,8 @@ if (!(Test-Path -Path "c:\temp")) {
     md "c:\temp"
 }
 
-if (!(Test-Path -Path "$($completeFile)1")) {
-    # Install AAD Tools
-	md c:\temp -ErrorAction Ignore
-	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
-
-	#Install-Module -Name Azure -AllowClobber -Force
-	#Install-Module -Name AzureRM -AllowClobber -Force
-
-	Install-Module -Name MSOnline -Force
-
-	Install-Module -Name AzureAD -Force
-
-	Install-Module -Name AzureADPreview -AllowClobber -Force
-
-    #record that we got this far
-    New-Item -ItemType file "$($completeFile)1"
-}
-
-if (!(Test-Path -Path "$($completeFile)2")) {
+$step=1
+if (!(Test-Path -Path "$($completeFile)$step")) {
     # Shortcuts
 	if (!(Test-Path -Path "c:\AADLab")) {
 		md "c:\AADLab" -ErrorAction Ignore
@@ -62,11 +45,11 @@ if (!(Test-Path -Path "$($completeFile)2")) {
 	}
 
     #record that we got this far
-    New-Item -ItemType file "$($completeFile)2"
+    New-Item -ItemType file "$($completeFile)$step"
 }
 
-
-if (!(Test-Path -Path "$($completeFile)3")) {
+$step=2
+if (!(Test-Path -Path "$($completeFile)$step")) {
     $smPassword = (ConvertTo-SecureString $password -AsPlainText -Force)
 
     #Install AD, reconfig network
@@ -81,10 +64,11 @@ if (!(Test-Path -Path "$($completeFile)3")) {
                        -SafeModeAdministratorPassword $smPassword 
 
     #record that we got this far
-    New-Item -ItemType file "$($completeFile)3"
+    New-Item -ItemType file "$($completeFile)$step"
 }
 
-if (!(Test-Path -Path "$($completeFile)4")) {
+$step=3
+if (!(Test-Path -Path "$($completeFile)$step")) {
     $Dns = "127.0.0.1"
     $IPType = "IPv4"
 
@@ -105,10 +89,11 @@ if (!(Test-Path -Path "$($completeFile)4")) {
     }
 
     #record that we got this far
-    New-Item -ItemType file "$($completeFile)4"
+    New-Item -ItemType file "$($completeFile)$step"
 }
 
-if (!(Test-Path -Path "$($completeFile)5")) {
+$step=4
+if (!(Test-Path -Path "$($completeFile)$step")) {
     # Configure the IP address and default gateway
     $adapter | New-NetIPAddress `
         -AddressFamily $IPType `
@@ -120,6 +105,6 @@ if (!(Test-Path -Path "$($completeFile)5")) {
     $adapter | Set-DnsClientServerAddress -ServerAddresses $DNS
 
     #record that we got this far
-    New-Item -ItemType file "$($completeFile)5"
+    New-Item -ItemType file "$($completeFile)$step"
 }
 

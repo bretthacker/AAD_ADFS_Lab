@@ -289,17 +289,28 @@ configuration DomainController
             }
             DependsOn  = '[Script]CreateOU'
         }
-		<#
+		
         #using service credentials for ADFS for now
-		Script SetKDCRoot
+		Script AddTools
         {
             SetScript  = {
-                            Add-KdsRootKey –EffectiveImmediately
-                         }
+				# Install AAD Tools
+					md c:\temp -ErrorAction Ignore
+					Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+
+					#Install-Module -Name Azure -AllowClobber -Force
+					#Install-Module -Name AzureRM -AllowClobber -Force
+
+					Install-Module -Name MSOnline -Force
+
+					Install-Module -Name AzureAD -Force
+
+					Install-Module -Name AzureADPreview -AllowClobber -Force
+                }
 
             GetScript =  { @{} }
             TestScript = { 
-                $key=Get-KdsRootKey -ErrorAction SilentlyContinue
+                $key=Get-Module -Name MSOnline -ListAvailable
                 return ($key -ine $null)
             }
             #Credential = $DomainCreds
@@ -307,7 +318,7 @@ configuration DomainController
 
             DependsOn = '[xADCSWebEnrollment]CertSrv'
         }
-		#>
+		
 
         <#
         Script UpdateAdfsSiteGPO
