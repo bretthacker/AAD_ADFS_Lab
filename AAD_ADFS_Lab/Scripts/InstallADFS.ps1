@@ -69,16 +69,13 @@ if (-not $elevated) {
 	md c:\temp -ErrorAction Ignore
 	Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
 
-	Install-Module -Name Azure -AllowClobber -Force
-	Install-Module -Name AzureRM -AllowClobber -Force
+	#Install-Module -Name Azure -AllowClobber -Force
+	#Install-Module -Name AzureRM -AllowClobber -Force
 
-	Save-Module -Name MSOnline -Path c:\temp
 	Install-Module -Name MSOnline -Force
 
-	Save-Module -Name AzureAD -Path c:\temp
 	Install-Module -Name AzureAD -Force
 
-	Save-Module -Name AzureADPreview -Path c:\temp
 	Install-Module -Name AzureADPreview -AllowClobber -Force
 
     # Setup Shortcuts

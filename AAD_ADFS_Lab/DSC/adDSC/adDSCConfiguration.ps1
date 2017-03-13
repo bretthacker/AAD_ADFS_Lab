@@ -289,8 +289,9 @@ configuration DomainController
             }
             DependsOn  = '[Script]CreateOU'
         }
-
-        Script SetKDCRoot
+		<#
+        #using service credentials for ADFS for now
+		Script SetKDCRoot
         {
             SetScript  = {
                             Add-KdsRootKey –EffectiveImmediately
@@ -306,6 +307,7 @@ configuration DomainController
 
             DependsOn = '[xADCSWebEnrollment]CertSrv'
         }
+		#>
 
         <#
         Script UpdateAdfsSiteGPO
