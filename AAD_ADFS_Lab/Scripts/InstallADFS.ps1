@@ -45,6 +45,7 @@ if (-not $elevated) {
 
     $Index = $ComputerName.Substring($ComputerName.Length-1,1)
 	$Subject = $WapFqdn -f $Index
+	Write-Host "Subject: $Subject"
 
     #get thumbprint of certificate
     $cert = Get-ChildItem Cert:\LocalMachine\My | where {$_.Subject -eq "CN=$Subject"}

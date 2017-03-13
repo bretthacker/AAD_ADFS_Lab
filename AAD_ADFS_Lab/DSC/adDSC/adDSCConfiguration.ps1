@@ -192,7 +192,9 @@ configuration DomainController
 
 				GetScript =  { @{} }
 				TestScript = { 
-					$ZoneName=$using:Subject
+					$s        = $using:subject;
+					$s        = $s -f $using:instance
+					$ZoneName = $s
 					$Zone = Get-DnsServerZone -Name $ZoneName -ErrorAction SilentlyContinue
 					return ($Zone -ine $null)
 				}
