@@ -11,7 +11,6 @@ Configuration Main
 
     $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
     $shortDomain = $wmiDomain.DomainName
-    $ComputerName = $wmiDomain.PSComputerName
 
     Import-DscResource -ModuleName PSDesiredStateConfiguration
 
@@ -36,16 +35,18 @@ Configuration Main
         Script SaveCert
         {
             SetScript  = {
+				#install the certificate(s) that will be used for ADFS Service
                 $cred=$using:DomainCreds
                 $wmiDomain = $using:wmiDomain
                 $DCName = $wmiDomain.DomainControllerName
-                $ComputerName = $wmiDomain.PSComputerName
                 $PathToCert="$DCName\src\*.pfx"
-                $File = Get-ChildItem -Path $PathToCert
-                $Subject=$File.BaseName
-
-                #install the certificate that will be used for ADFS Service
-                Import-PfxCertificate -Exportable -Password $cred.Password -CertStoreLocation cert:\localmachine\my -FilePath $File.FullName
+                $CertFile = Get-ChildItem -Path $PathToCert
+				for ($file=0; $file =le $CertFile.Count; $file++)
+				{
+					$Subject   = $CertFile[$file].BaseName
+					$CertPath  = $CertFile[$file].FullName
+					$cert      = Import-PfxCertificate -Exportable -Password $cred.Password -CertStoreLocation cert:\localmachine\my -FilePath $CertPath
+				}
             }
 
             GetScript =  { @{} }

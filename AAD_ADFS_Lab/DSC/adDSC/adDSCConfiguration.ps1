@@ -6,7 +6,10 @@ configuration DomainController
    (
         [Parameter(Mandatory)]
         [String]$Subject,
- 
+
+        [Parameter(Mandatory)]
+        [Int]$ADFSFarmCount,
+
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$AdminCreds,
 
@@ -98,49 +101,77 @@ configuration DomainController
             DependsOn = '[WindowsFeature]ADCS-Web-Enrollment','[xADCSCertificationAuthority]ADCS'
         }
 
-        xCertReq SSLCert
-        {
-            CARootName                = "$CARootName"
-            CAServerFQDN              = "$ComputerName.$DomainName"
-            Subject                   = "$Subject"
-            KeyLength                 = 2048
-            Exportable                = $true
-            ProviderName              = '"Microsoft RSA SChannel Cryptographic Provider"'
-            OID                       = '1.3.6.1.5.5.7.3.1'
-            KeyUsage                  = '0xa0'
-            CertificateTemplate       = 'WebServer'
-            AutoRenew                 = $true
-            Credential                = $DomainCreds
-            DependsOn                 = '[xADCSWebEnrollment]CertSrv'
-        }
+		Script ExportRoot
+		{
+			SetScript = {
+							$arr       = $($using:DomainName).split('.')
+							$d         = $($using:shortDomain).ToLower()
+							$c         = $($using:ComputerName).ToUpper()
+							$shortname = "$d-$c-CA"
+							$rootName  = "CN=$shortname, DC=$($arr[0]), DC=$($arr[1])"
 
-        Script SaveCert
-        {
-            SetScript  = {
-                             $s=$using:subject;
-                             write-verbose "subject = $s";
-                             $cert = Get-ChildItem Cert:\LocalMachine\My | where {$_.Subject -eq "CN=$s"}
-                             Export-PfxCertificate -FilePath "c:\src\$s.pfx" -Cert $cert -Password (ConvertTo-SecureString $Using:ClearPw -AsPlainText -Force)
+							$rootcert  = Get-ChildItem Cert:\LocalMachine\CA | where {$_.Subject -eq "$rootName"}
+							if($rootcert -eq $null) {
+							Write-Verbose "ERROR: ROOT CERT `"$rootName`" NOT FOUND, cancelling cert export"
+							} else {
+								$root      = if ($rootcert.GetType().BaseType.Name -eq "Array") {$rootCert[0]} else {$rootCert}
+								Export-Certificate -FilePath "c:\src\$shortname.cer" -Cert $root
+							}
 
-                             $arr       = $($using:DomainName).split('.')
-                             $d         = $($using:shortDomain).ToLower()
-                             $c         = $($using:ComputerName).ToUpper()
-                             $shortname = "$d-$c-CA"
-                             $rootName  = "CN=$shortname, DC=$($arr[0]), DC=$($arr[1])"
+						}
+			TestScript = {
+					$arr       = $($using:DomainName).split('.')
+					$d         = $($using:shortDomain).ToLower()
+					$c         = $($using:ComputerName).ToUpper()
+					$shortname = "$d-$c-CA"
+					return Test-Path "C:\src\$shortname.cer"
+			}
+			GetScript = { @{} }
+			DependsOn = '[xADCSWebEnrollment]CertSrv'
+		}
 
-                             $rootcert  = Get-ChildItem Cert:\LocalMachine\CA | where {$_.Subject -eq "$rootName"}
-                             if($rootcert -eq $null) {
-                                Write-Verbose "ERROR: ROOT CERT `"$rootName`" NOT FOUND, cancelling cert export"
-                             } else {
-                                 $root      = if ($rootcert.GetType().BaseType.Name -eq "Array") {$rootCert[0]} else {$rootCert}
-                                 Export-Certificate -FilePath "c:\src\$shortname.cer" -Cert $root
-                             }
-                         }
+        for($instance=1; $instance -le $ADFSFarmCount; $instance++) {
 
-            GetScript  = { @{ Result = (Get-Content "C:\src\$($using:subject).pfx") } }
-            TestScript = { return Test-Path "C:\src\$($using:subject).pfx" }
-            DependsOn  = '[xCertReq]SSLCert'
-        }
+			xCertReq "SSLCert$instance"
+			{
+				CARootName                = "$CARootName"
+				CAServerFQDN              = "$ComputerName.$DomainName"
+				Subject                   = "$Subject" -f $instance
+				KeyLength                 = 2048
+				Exportable                = $true
+				ProviderName              = '"Microsoft RSA SChannel Cryptographic Provider"'
+				OID                       = '1.3.6.1.5.5.7.3.1'
+				KeyUsage                  = '0xa0'
+				CertificateTemplate       = 'WebServer'
+				AutoRenew                 = $true
+				Credential                = $DomainCreds
+				DependsOn                 = '[xADCSWebEnrollment]CertSrv'
+			}
+
+			Script "SaveCert$instance"
+			{
+				SetScript  = {
+								 $s=$using:subject;
+								 $s = $s -f $using:instance
+								 write-verbose "subject = $s";
+								 $cert = Get-ChildItem Cert:\LocalMachine\My | where {$_.Subject -eq "CN=$s"}
+								 Export-PfxCertificate -FilePath "c:\src\$s.pfx" -Cert $cert -Password (ConvertTo-SecureString $Using:ClearPw -AsPlainText -Force)
+							 }
+
+				GetScript  = { @{ 
+									$s=$using:subject;
+									$s = $s -f $using:instance
+									Result = (Get-Content "C:\src\$s.pfx") } 
+								}
+				TestScript = {
+								$s=$using:subject;
+								$s = $s -f $using:instance
+								return Test-Path "C:\src\$s.pfx" 
+							 }
+				DependsOn  = "[xCertReq]SSLCert$instance"
+			}
+
+		}
 
         Script InstallAADConnect
         {

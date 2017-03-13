@@ -99,14 +99,17 @@ if ($deployment) {
     }
     $ADName = $ADDomainName.Split('.')[0]
     $vms = Find-AzureRmResource -ResourceGroupNameContains $RGName | where {($_.ResourceType -like "Microsoft.Compute/virtualMachines")}
+    $pxcount=0
     if ($vms) {
         foreach ($vm in $vms) {
             $fqdn=Get-FQDNForVM -ResourceGroupName $RGName -VMName $vm.Name
             New-RDPConnectoid -ServerName $fqdn -LoginName "$($ADName)\$($userName)" -RDPName $vm.Name -OutputDirectory $RDPFolder -Width $RDPWidth -Height $RDPHeight
             if ($vm.Name.IndexOf("PX") -gt -1) {
+                $pxcount++
                 $WshShell = New-Object -comObject WScript.Shell
-                $Shortcut = $WshShell.CreateShortcut("$($RDPFolder)ADFSTest.lnk")
+                $Shortcut = $WshShell.CreateShortcut("$($RDPFolder)ADFSTest$pxcount.lnk")
                 $Shortcut.TargetPath = "https://$fqdn/adfs/ls/idpinitiatedsignon.aspx"
+                $Shortcut.IconLocation = "%ProgramFiles%\Internet Explorer\iexplore.exe, 0"
                 $Shortcut.Save()
             }
         }

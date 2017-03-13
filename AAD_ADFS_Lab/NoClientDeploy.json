@@ -172,7 +172,7 @@
     "adfsDSCTemplate": "[concat(parameters('assetLocation'),'DSC/adfsDSC.zip')]",
     "adfsDSCConfigurationFunction": "adfsDSCConfiguration.ps1\\Main",
     "wapDSCConfigurationFunction": "wapDSCConfiguration.ps1\\Main",
-    "WAPPubIpDnsFQDN1": "[concat(variables('publicIPAddressDNSName'),'1.', toLower(replace(resourceGroup().location,' ','')),'.cloudapp.azure.com')]"
+    "WAPPubIpDnsFQDN": "[concat(variables('publicIPAddressDNSName'),'{0}.', toLower(replace(resourceGroup().location,' ','')),'.cloudapp.azure.com')]"
   },
   "resources": [
     {
@@ -273,8 +273,13 @@
           "properties": [
             {
               "Name": "Subject",
-              "Value": "[variables('WAPPubIpDnsFQDN1')]",
+              "Value": "[variables('WAPPubIpDnsFQDN')]",
               "TypeName": "System.String"
+            },
+            {
+              "Name": "ADFSFarmCount",
+              "Value": "[parameters('AdfsFarmCount')]",
+              "TypeName": "System.Integer"
             },
             {
               "Name": "AdminCreds",
@@ -469,7 +474,7 @@
           "fileUris": [
             "[variables('CopyCertToWAPTemplateUri')]"
           ],
-          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'))]"
+          "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File ', variables('CopyCertToWAPTemplate'), ' -DCFQDN ', concat(variables('adVMName'), '.', parameters('adDomainName')), ' -adminuser ', parameters('adminUsername'), ' -password ', parameters('adminPassword'), ' -instance ', copyIndex(1), ' -WapFqdn ', variables('WAPPubIpDnsFQDN'))]"
         }
       }
     }

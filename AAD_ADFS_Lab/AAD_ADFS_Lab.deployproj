@@ -291,6 +291,7 @@
     <None Include="DSC\adfsDSC\xPendingReboot\0.3.0.0\Tests\xPendingReboot.tests.ps1" />
     <None Include="DSC\adfsDSC\xPendingReboot\0.3.0.0\xPendingReboot.psd1" />
     <None Include="Scripts\Addons.ps1" />
+    <None Include="Scripts\ADSnippets.ps1" />
     <None Include="Scripts\ConfigRDPUsers.ps1" />
     <None Include="Scripts\CopyCertToWAP.ps1" />
     <None Include="Scripts\DeployAD.ps1" />
