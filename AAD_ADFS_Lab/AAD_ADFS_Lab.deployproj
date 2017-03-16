@@ -25,6 +25,7 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
+    <None Include="metadata.json" />
     <None Include="NoClientDeploy.json" />
     <None Include="FullDeploy.json" />
     <None Include="deploy.ps1" />
@@ -244,13 +245,6 @@
     <None Include="DSC\adDSC\xNetworking\3.2.0.0\Modules\NetworkingDsc.ResourceHelper\NetworkingDsc.ResourceHelper.psm1" />
     <None Include="DSC\adDSC\xNetworking\3.2.0.0\xNetworkAdapter.psm1" />
     <None Include="DSC\adDSC\xNetworking\3.2.0.0\xNetworking.psd1" />
-    <None Include="DSC\adDSC\xPendingReboot\0.3.0.0\appveyor.yml" />
-    <None Include="DSC\adDSC\xPendingReboot\0.3.0.0\DSCResources\MSFT_xPendingReboot\MSFT_xPendingReboot.psm1" />
-    <None Include="DSC\adDSC\xPendingReboot\0.3.0.0\DSCResources\MSFT_xPendingReboot\MSFT_xPendingReboot.schema.mof" />
-    <None Include="DSC\adDSC\xPendingReboot\0.3.0.0\LICENSE" />
-    <None Include="DSC\adDSC\xPendingReboot\0.3.0.0\README.md" />
-    <None Include="DSC\adDSC\xPendingReboot\0.3.0.0\Tests\xPendingReboot.tests.ps1" />
-    <None Include="DSC\adDSC\xPendingReboot\0.3.0.0\xPendingReboot.psd1" />
     <None Include="DSC\adDSC\xSmbShare\2.0.0.0\DscResources\MSFT_xSmbShare\MSFT_xSmbShare.psm1" />
     <None Include="DSC\adDSC\xSmbShare\2.0.0.0\DscResources\MSFT_xSmbShare\MSFT_xSmbShare.schema.mof" />
     <None Include="DSC\adDSC\xSmbShare\2.0.0.0\LICENSE" />

@@ -65,11 +65,12 @@ if (!(Test-Path -Path "$($completeFile)1")) {
 }
 
 if (!(Test-Path -Path "$($completeFile)2")) {
+	$Subject = $WapFqdn -f $instance
 	$str = @"
 #https://blogs.technet.microsoft.com/rmilne/2015/04/20/adfs-2012-r2-web-application-proxy-re-establish-proxy-trust/
 `$DomainCreds = Get-Credential
 `$File      = Get-ChildItem -Path "c:\temp\*.pfx"
-`$Subject   = `$File.BaseName
+`$Subject   = "$Subject"
 
 `$cert      = Get-ChildItem Cert:\LocalMachine\My | where {`$_.Subject -eq "CN=`$Subject"} -ErrorAction SilentlyContinue
 
