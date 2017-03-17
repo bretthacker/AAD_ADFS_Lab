@@ -7,8 +7,6 @@ Description | Link
 Full deploy - AD, ADFS, WAP | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fmaster%2FAAD_ADFS_Lab%2FNoClientDeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fbretthacker%2FAAD_ADFS_Lab%2Fmaster%2FAAD_ADFS_Lab%2FFullDeploy.json" target="_blank"><img src="http://azuredeploy.net/deploybutton.png"/></a>
 
-(Links are for the master branch - copy the URL, update the branch, load it, and then also edit the "Asset Location" in Azure if you want dev.)
-
 ## Details
 * Deploys the following infrastructure:
  * Virtual Network
