@@ -33,7 +33,7 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
     * CustomScriptExtension copies and installs the cert from the DC and connects to the ADFS farm
 
 ## Notes
-* _A template is included for Client creation via MSDN images. You will need to update the URL to point to your images. Images must be named "OSImage_Win&lt;version&gt;"._
+* _A template is included for Client creation via MSDN images. You will need to update the URL to point to your images. Images must be named "OSImage_Win&lt;version&gt;"._ You are responsible for validating your licensing rights for client MSDN images in your subscription.
 * The NSGs defined are for reference, but they aren't production-ready as holes are also opened for RDP to each VM directly, and public IPs are allocated for each VM as well
 * One VM size is specified for all VMs
 * Managed disks are used for all VMs - no storage accounts are created for diagnostics
