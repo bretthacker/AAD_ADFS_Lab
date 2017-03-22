@@ -43,6 +43,9 @@ Full deploy - AD, ADFS, WAP, _with client machines*_ | <a href="https://portal.a
 ## Caveats
 * There has been an intermittent bug with regards to the script block that enables RDP access for non-admin (test) users within deployed client VMs (when the client deploy script is used). It doesn't affect the base lab functionality, but if you see an error regarding 'ConfigRDPUsers' during deployment, the AD admin may need to enable non-admin RDP access before a test user can login to one of the client VMs to try client SSO scenarios.
 
+## Bugs
+* When the lab is shut down and restarted, the scripts on the ADFS box are setting the ADFS config back to default, thus wiping out the trust to the WAP box. Short-term (and unacceptable) workaround is to re-trust the ADFS from the WAP. Will fix the DSC/script bug shortly... 
+
 ## Warning
 * This template is explicitely designed for a lab environment. A few compromises were made, especially with regards to credential passing to DSC and script automation, that WILL result in clear text passwords being left behind in the DSC/scriptextension package folders, and Azure log folders on the resulting VMs. 
 
