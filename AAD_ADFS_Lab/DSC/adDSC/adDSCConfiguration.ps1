@@ -114,11 +114,11 @@ configuration DomainController
 							$d         = $($using:shortDomain).ToLower()
 							$c         = $($using:ComputerName).ToUpper()
 							$shortname = "$d-$c-CA"
-							$rootName  = "CN=$shortname, DC=$($arr[0]), DC=$($arr[1])"
+                            $rootName  = "CN={0}, {1}" -f $shortname, [string]::Join(", ", ($arr | % { "DC={0}" -f $_ }))
 
 							$rootcert  = Get-ChildItem Cert:\LocalMachine\CA | where {$_.Subject -eq "$rootName"}
-							if($rootcert -eq $null) {
-							Write-Verbose "ERROR: ROOT CERT `"$rootName`" NOT FOUND, cancelling cert export"
+							if ($rootcert -eq $null) {
+							    Write-Verbose "ERROR: ROOT CERT `"$rootName`" NOT FOUND, cancelling cert export"
 							} else {
 								$root      = if ($rootcert.GetType().BaseType.Name -eq "Array") {$rootCert[0]} else {$rootCert}
 								Export-Certificate -FilePath "c:\src\$shortname.cer" -Cert $root
@@ -229,10 +229,9 @@ configuration DomainController
         {
             SetScript = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
-                $DC1=$wmiDomain.DnsForestName.Split('.')[0]
-                $DC2=$wmiDomain.DnsForestName.Split('.')[1]
-                $OU="OU=OrgUsers,DC=$DC1,DC=$DC2"
-                New-ADOrganizationalUnit -Name "OrgUsers" -Path "DC=$DC1,DC=$DC2"
+                $segments = $wmiDomain.DnsForestName.Split('.')
+                $path = [string]::Join(", ", ($segments | % { "DC={0}" -f $_ }))
+                New-ADOrganizationalUnit -Name "OrgUsers" -Path $path
             }
             GetScript =  { @{} }
             TestScript = { 
@@ -246,10 +245,10 @@ configuration DomainController
             SetScript = {
                 $wmiDomain = Get-WmiObject Win32_NTDomain -Filter "DnsForestName = '$( (Get-WmiObject Win32_ComputerSystem).Domain)'"
                 $mailDomain=$wmiDomain.DnsForestName
-                $DC1=$wmiDomain.DnsForestName.Split('.')[0]
-                $DC2=$wmiDomain.DnsForestName.Split('.')[1]
                 $server="$($wmiDomain.PSComputerName).$($wmiDomain.DnsForestName)"
-                $OU="OU=OrgUsers,DC=$DC1,DC=$DC2"
+                $segments = $wmiDomain.DnsForestName.Split('.')
+                $OU = "OU=OrgUsers, {0}" -f [string]::Join(", ", ($segments | % { "DC={0}" -f $_ }))
+                
                 $folder=$using:DscWorkingFolder
 
 				$clearPw = $using:ClearDefUserPw
@@ -277,7 +276,7 @@ configuration DomainController
                         -Enabled $true `
                         -Path "$OU" `
                         -ChangePasswordAtLogon $false `
-                        –PasswordNeverExpires $true `
+                        -PasswordNeverExpires $true `
                         -server $server `
                         -EmailAddress $UPN
                 }
