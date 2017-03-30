@@ -16,7 +16,7 @@
       "type": "string",
       "defaultValue": "1",
       "allowedValues": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
-      "metadata": { "description": "When deploying the stack N times, define the instance - this will be appended to some resource names to avoid collisions." }
+      "metadata": { "description": "When deploying the stack N times simultaneously, define the instance - this will be appended to some resource names to avoid collisions." }
     },
     "adminPassword": {
       "type": "securestring",
@@ -60,8 +60,8 @@
     "AdfsFarmCount": {
       "type": "string",
       "defaultValue": "1",
-      "allowedValues": [ "1", "2" ],
-      "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times." }
+      "allowedValues": [ "1", "2", "3", "4", "5" ],
+      "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing." }
     },
     "vmSize": {
       "type": "string",
@@ -410,8 +410,7 @@
         "publisher": "Microsoft.Compute",
         "type": "CustomScriptExtension",
         "typeHandlerVersion": "1.4",
-        "forceUpdateTag": "1.0.1",
-        "autoUpgradeMinorVersion": true,
+        "autoUpgradeMinorVersion": false,
         "settings": {
           "fileUris": [
             "[variables('DeployADFSFarmTemplateUri')]"
@@ -439,8 +438,7 @@
         "publisher": "Microsoft.Powershell",
         "type": "DSC",
         "typeHandlerVersion": "2.21",
-        "autoUpgradeMinorVersion": true,
-        "forceUpdateTag": "1.01",
+        "autoUpgradeMinorVersion": false,
         "settings": {
           "modulesUrl": "[variables('adfsDSCTemplate')]",
           "configurationFunction": "[variables('wapDSCConfigurationFunction')]",
