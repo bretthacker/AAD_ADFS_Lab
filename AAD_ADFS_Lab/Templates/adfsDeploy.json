@@ -83,8 +83,8 @@
     "AdfsFarmCount": {
       "type": "string",
       "defaultValue": "1",
-      "allowedValues": [ "1", "2" ],
-      "metadata": { "description": "An ADFS and WAP server will be setup independently this number of times." }
+      "allowedValues": [ "1", "2", "3", "4", "5" ],
+      "metadata": { "description": "An ADFS/WAP server combo will be setup independently this number of times. NOTE: it's unlikely to ever need more than one - additional farm counts are for edge case testing." }
     }
   },
   "variables": {
