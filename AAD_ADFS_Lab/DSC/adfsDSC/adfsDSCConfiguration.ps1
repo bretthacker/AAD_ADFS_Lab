@@ -84,7 +84,7 @@ Configuration Main
             TestScript = { 
                 return Test-Path "$env:TEMP\AzureADConnect.msi" 
             }
-            DependsOn  = '[Script]SaveCert'
+            DependsOn  = '[Script]SaveCert','[WindowsFeature]installADFS'
         }
     }
 }

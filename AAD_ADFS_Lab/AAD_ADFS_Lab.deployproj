@@ -25,6 +25,7 @@
   <Import Condition=" Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets') " Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Deployment\1.1\DeploymentProject.targets" />
   <!-- vertag<:>end -->
   <ItemGroup>
+    <None Include="DSC\adfsDSC\adfsDSCConfiguration.ps1" />
     <None Include="metadata.json" />
     <None Include="NoClientDeploy.json" />
     <None Include="FullDeploy.json" />
@@ -251,7 +252,6 @@
     <None Include="DSC\adDSC\xSmbShare\2.0.0.0\README.md" />
     <None Include="DSC\adDSC\xSmbShare\2.0.0.0\xSmbShare.psd1" />
     <None Include="DSC\adfsDSC.zip" />
-    <None Include="DSC\adfsDSC\adfsDSCConfiguration.ps1" />
     <None Include="DSC\adfsDSC\wapDSCConfiguration.ps1" />
     <None Include="DSC\adfsDSC\xComputerManagement\1.9.0.0\DSCResources\CommonResourceHelper.psm1" />
     <None Include="DSC\adfsDSC\xComputerManagement\1.9.0.0\DSCResources\MSFT_xComputer\MSFT_xComputer.psm1" />

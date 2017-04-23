@@ -1,4 +1,6 @@
 ﻿$startTime=Get-Date
+Write-Host "Beginning deployment at $starttime"
+
 Import-Module Azure -ErrorAction SilentlyContinue
 
 #DEPLOYMENT OPTIONS
@@ -25,9 +27,9 @@ Import-Module Azure -ErrorAction SilentlyContinue
                                )
     $defaultUserPassword     = "P@ssw0rd"
 
-    # ClientsToDeploy, array, possible values: "7","8","10-1607","10-1511"
+    # ClientsToDeploy, array, possible values: "7","8","10-1607","10-1511","10-1703"
     # Examples: Single Win7 VM = @("7")
-    #           Two Win7, one Win10 = "7","7","10-1511"
+    #           Two Win7, one Win10 Creators = "7","7","10-1703"
     $clientsToDeploy         = @("7")
     $RDPWidth                = 1920
     $RDPHeight               = 1080
@@ -70,7 +72,7 @@ $parms=@{
     "defaultUserPassword"         = "P@ssw0rd";
 }
 
-$TemplateFile = "$($assetLocation)$templateToDeploy"
+$TemplateFile = "$($assetLocation)$templateToDeploy" + "?x=5"
 
 try {
     Get-AzureRmResourceGroup -Name $RGName -ErrorAction Stop
