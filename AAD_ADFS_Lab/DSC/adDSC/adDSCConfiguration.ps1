@@ -235,7 +235,7 @@ configuration DomainController
             }
             GetScript =  { @{} }
             TestScript = { 
-                $test=Get-ADOrganizationalUnit -Filter 'Name -like "OrgUsers"' -ErrorAction SilentlyContinue
+                $test=Get-ADOrganizationalUnit -Server "$using:ComputerName.$using:DomainName" -Filter 'Name -like "OrgUsers"' -ErrorAction SilentlyContinue
                 return ($test -ine $null)
             }
         }
